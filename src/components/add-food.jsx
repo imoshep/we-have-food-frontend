@@ -1,11 +1,11 @@
 import React from "react";
 import Form from "./common/form";
 
-class Login extends Form {
+class AddFood extends Form {
   state = {};
   render() {
-    return <p>Login here</p>;
+    return <p>Add Food</p>;
   }
 }
 
-export default Login;
+export default AddFood;
