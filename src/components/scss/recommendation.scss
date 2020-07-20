@@ -1,0 +1,36 @@
+@import "../../services/color-palette.scss";
+
+.recommendation {
+  display: flex;
+  height: 10rem;
+  max-width: 24rem;
+  margin: 1rem;
+  background-color: white;
+  box-shadow: 3px 3px 10px rgba($color: #000000, $alpha: 0.5);
+
+  &__link,
+  &__link:active,
+  &__link:visited {
+    text-decoration: none;
+    color: black;
+  }
+  &__image {
+    float: right;
+    height: 100%;
+    max-width: 33%;
+  }
+
+  &__text {
+    padding: 1rem;
+    float: right;
+    width: 67%;
+  }
+
+  &__heading {
+  }
+
+  &__desc {
+    // width: 100%;
+    overflow-wrap: normal;
+  }
+}
