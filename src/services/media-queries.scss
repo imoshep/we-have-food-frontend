@@ -1,0 +1,24 @@
+// ORDER: Base + typography > general layout + grid > page layout > components
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == sm {
+    @media only screen and (min-width: 576px) {
+      @content;
+    }
+  }
+  @if $breakpoint == md {
+    @media only screen and (min-width: 768px) {
+      @content;
+    }
+  }
+  @if $breakpoint == lg {
+    @media only screen and (min-width: 992px) {
+      @content;
+    }
+  }
+  @if $breakpoint == xl {
+    @media only screen and (min-width: 1200px) {
+      @content;
+    }
+  }
+}
