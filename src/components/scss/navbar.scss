@@ -52,11 +52,6 @@
       //   }
     }
 
-    &.user {
-      position: absolute;
-      top: 0;
-      left: 8px;
-    }
     // &.home {
     //   display: inline-block;
     // }
@@ -66,5 +61,13 @@
         display: none;
       }
     }
+  }
+
+  .userIcon {
+    display: flex;
+
+    position: absolute;
+    top: 0;
+    left: 8px;
   }
 }

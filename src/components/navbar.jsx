@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faHome } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faHome,
+  faUserCircle,
+  faPeopleArrows,
+} from "@fortawesome/free-solid-svg-icons";
 import "./scss/navbar.scss";
 
 class Navbar extends Component {
@@ -9,7 +14,7 @@ class Navbar extends Component {
     hideNav: true,
   };
 
-  collapse() {
+  collapseNavbar() {
     document.getElementById("collapse-list").classList.toggle("expand");
   }
 
@@ -36,8 +41,12 @@ class Navbar extends Component {
     return (
       <nav className={`navbar ${hideNav ? "hide" : ""}`} id="navbar">
         <ul className="top-list">
-          <li className="navlink burger">
-            <FontAwesomeIcon icon={faBars} onClick={() => this.collapse()} />
+          <li
+            className="navlink burger"
+            id="burger"
+            onClick={this.collapseNavbar}
+          >
+            <FontAwesomeIcon icon={faBars} />
           </li>
           <li className="navlink home active">
             <NavLink to="/">
@@ -45,6 +54,9 @@ class Navbar extends Component {
             </NavLink>
           </li>
           <span className="collapse-list" id="collapse-list">
+            <li className="navlink">
+              <p> </p>
+            </li>
             <li className="navlink">
               <NavLink to="/food">למצוא אוכל</NavLink>
             </li>
@@ -55,18 +67,25 @@ class Navbar extends Component {
               <NavLink to="/food/add">שתף אוכל</NavLink>
             </li>
           </span>
-          <li className="navlink user">
-            <NavLink to="/user/logout">שינוי משתמש</NavLink>
-          </li>
-          {/* {user ? (
-            <li className="navlink user">
-              <NavLink to="/user/logout">שינוי משתמש</NavLink>
-            </li>
+
+          {user ? (
+            <span className="userIcon">
+              <li className="navlink " id="userIcon">
+                <NavLink to="/api/users/my">
+                  <FontAwesomeIcon icon={faUserCircle} />
+                </NavLink>
+              </li>
+              <li className="navlink user">
+                <NavLink to="/api/users/logout">
+                  <FontAwesomeIcon icon={faPeopleArrows} />
+                </NavLink>
+              </li>
+            </span>
           ) : (
             <li className="navlink user">
               <NavLink to="/user/login">התחברות למערכת</NavLink>
             </li>
-          )} */}
+          )}
         </ul>
       </nav>
     );
