@@ -5,9 +5,10 @@ import {
   faBars,
   faHome,
   faUserCircle,
+  faUserPlus,
   faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
-import "./scss/navbar.scss";
+import styles from "./scss/navbar.module.scss";
 
 class Navbar extends Component {
   state = {
@@ -15,75 +16,104 @@ class Navbar extends Component {
   };
 
   collapseNavbar() {
-    document.getElementById("collapse-list").classList.toggle("expand");
+    document
+      .getElementById("collapse-list")
+      .classList.toggle(`${styles.expand}`);
   }
 
-  showNavbar() {
+  showNavbar(entries, observer) {
     let { hideNav } = this.state;
-    let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
 
-    scrollBarPosition < 60 ? (hideNav = true) : (hideNav = false);
+    entries.forEach((entry) => {
+      console.dir(entry);
+      console.log("prevRatio: " + this.prevRatio);
+      if (entry.intersectionRatio < this.prevRatio) {
+        hideNav = false;
+      } else {
+        hideNav = true;
+      }
+      this.prevRatio = entry.intersectionRatio;
+    });
+    // let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
+    // scrollBarPosition < 60 ? (hideNav = true) : (hideNav = false);
 
     this.setState({ hideNav });
   }
 
   componentDidMount() {
-    window.addEventListener("scroll", this.showNavbar.bind(this));
+    this.container = document.querySelector("body");
+    this.prevRatio = 1;
+    this.creatObserver();
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.showNavbar.bind(this));
+  creatObserver() {
+    let options = {
+      // root: document.querySelector(".app-container"),
+      root: null,
+      rootMargin: "0px",
+      threshold: [0, 0.3, 0.6, 1],
+    };
+    let observer = new IntersectionObserver(
+      this.showNavbar.bind(this),
+      options
+    );
+    observer.observe(this.container);
   }
 
   render() {
     const { user } = this.props;
     const { hideNav } = this.state;
     return (
-      <nav className={`navbar ${hideNav ? "hide" : ""}`} id="navbar">
-        <ul className="top-list">
+      <nav
+        className={`${styles.navbar} ${hideNav ? styles.hide : ""}`}
+        id="navbar"
+      >
+        <ul className={styles.topList}>
           <li
-            className="navlink burger"
+            className={`${styles.navlink} ${styles.burger}`}
             id="burger"
             onClick={this.collapseNavbar}
           >
             <FontAwesomeIcon icon={faBars} />
           </li>
-          <li className="navlink home active">
+          <li className={`${styles.navlink} ${styles.home} ${styles.active}`}>
             <NavLink to="/">
               <FontAwesomeIcon icon={faHome} />
             </NavLink>
           </li>
-          <span className="collapse-list" id="collapse-list">
-            <li className="navlink">
+          <span className={styles.collapseList} id="collapse-list">
+            <li className={styles.navlink}>
               <p> </p>
             </li>
-            <li className="navlink">
+            <li className={styles.navlink}>
               <NavLink to="/food">למצוא אוכל</NavLink>
             </li>
-            <li className="navlink">
+            <li className={styles.navlink}>
               <NavLink to="/users/my-favorites">הצעות מעניינות</NavLink>
             </li>
-            <li className="navlink">
+            <li className={styles.navlink}>
               <NavLink to="/food/add">שתף אוכל</NavLink>
             </li>
           </span>
 
           {user ? (
-            <span className="userIcon">
-              <li className="navlink " id="userIcon">
-                <NavLink to="/api/users/my">
+            <span className={styles.topLeft}>
+              <li className={styles.navlink}>
+                <NavLink to="/user/my">
                   <FontAwesomeIcon icon={faUserCircle} />
                 </NavLink>
               </li>
-              <li className="navlink user">
-                <NavLink to="/api/users/logout">
+              <li className={styles.navlink}>
+                <NavLink to="/user/logout">
                   <FontAwesomeIcon icon={faPeopleArrows} />
                 </NavLink>
               </li>
             </span>
           ) : (
-            <li className="navlink user">
-              <NavLink to="/user/login">התחברות למערכת</NavLink>
+            <li className={`${styles.navlink} ${styles.topLeft}`}>
+              <NavLink to="/user/login">
+                <FontAwesomeIcon icon={faUserPlus} />
+              </NavLink>
             </li>
           )}
         </ul>

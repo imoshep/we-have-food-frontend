@@ -4,7 +4,7 @@ import Form from "./common/form";
 import userService from "../services/userService";
 import Button from "./common/button";
 import Joi from "joi-browser";
-import "./scss/login.scss";
+import styles from "./scss/login.module.scss";
 
 class Login extends Form {
   state = {
@@ -21,7 +21,10 @@ class Login extends Form {
     const { email, password } = this.state.data;
     try {
       await userService.login(email, password);
-      window.location = this.props.location.state.from.pathname;
+      let from = this.props.location.state?.from?.pathname;
+      window.location = from
+        ? (window.location = from)
+        : (window.location = "/");
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         this.setState({ errors: { password: ex.response.data } });
@@ -30,30 +33,23 @@ class Login extends Form {
   };
 
   render() {
-    console.log(this.props.location);
     return (
-      <div className="login">
-        <h2>התחבר/י</h2>
-        <form
-          id="login-form"
-          onSubmit={this.handleSubmit}
-          action=""
-          method="post"
-        >
-          {this.renderInput("email", "כתובת אימייל", "email")}
-          {this.renderInput("password", "סיסמא", "password")}
-          {this.renderSubmitButton("יש לי אוכל")}
-          <br />
-        </form>
-        <Link
-          to={{
-            pathname: "/user/signup",
-            state: { from: this.props.location.state.from },
-          }}
-        >
-          עוד אין לך חשבון?
-        </Link>
-        <Button to="/" text="Home" color="#64a417" />
+      <div className={styles.login}>
+        <div className={styles.form}>
+          <h2>התחבר/י</h2>
+          <form
+            id="login-form"
+            onSubmit={this.handleSubmit}
+            action=""
+            method="post"
+          >
+            {this.renderInput("email", "כתובת אימייל", "email")}
+            {this.renderInput("password", "סיסמא", "password")}
+            {this.renderSubmitButton("יש לי אוכל", "button green")}
+            <br />
+          </form>
+        </div>
+        <Button to="/user/signup" text="עוד אין לך חשבון?" color="mustard" />
       </div>
     );
   }

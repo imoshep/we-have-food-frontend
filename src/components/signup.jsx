@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Joi from "joi-browser";
 import http from "../services/httpService.js";
 import { apiUrl } from "../config.json";
-import "./scss/signup.scss";
+import styles from "./scss/signup.module.scss";
 
 class Signup extends Form {
   state = {
@@ -21,7 +21,7 @@ class Signup extends Form {
       .label("Name")
       .error(() => {
         return {
-          message: "השם צריך להיות בן שני תוים לפחות",
+          message: "שני תוים לפחות",
         };
       }),
     email: Joi.string()
@@ -39,7 +39,7 @@ class Signup extends Form {
       .label("Password")
       .error(() => {
         return {
-          message: "הסיסמא צריכה להיות בת שישה תוים לפחות",
+          message: "שישה תוים לפחות",
         };
       }),
   };
@@ -58,23 +58,24 @@ class Signup extends Form {
   };
 
   render() {
-    console.log(this.props.location);
+    // console.log(this.props.location);
     return (
-      <div className="signup">
-        <h2>התחבר/י</h2>
-        <form
-          id="signup-form"
-          onSubmit={this.handleSubmit}
-          action=""
-          method="post"
-        >
-          {this.renderInput("name", "שם:")}
-          {this.renderInput("email", "כתובת אימייל:", "email")}
-          {this.renderInput("password", "סיסמא:", "password")}
-          {this.renderSubmitButton("בואו נתחיל")}
-          <br />
-        </form>
-        <Button to="/" text="Home" color="#64a417" />
+      <div className={styles.signup}>
+        <div className={styles.form}>
+          <h2>הרשמה</h2>
+          <form
+            id="signup-form"
+            onSubmit={this.handleSubmit}
+            action=""
+            method="post"
+          >
+            {this.renderInput("name", "שם:")}
+            {this.renderInput("email", "כתובת אימייל:", "email")}
+            {this.renderInput("password", "סיסמא:", "password")}
+            {this.renderSubmitButton("בואו נתחיל", "button green")}
+            <br />
+          </form>
+        </div>
       </div>
     );
   }

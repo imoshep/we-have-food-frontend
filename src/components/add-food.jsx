@@ -2,6 +2,7 @@ import React from "react";
 import Form from "./common/form";
 import Button from "./common/button";
 import "../services/color-palette.scss";
+import styles from "./scss/add-food.module.scss";
 
 class AddFood extends Form {
   state = {};
@@ -33,7 +34,9 @@ class AddFood extends Form {
             Cancel
           </Link>
         </form> */}
-        <Button to="/" text="Home" color="#64a417" />
+        <div>
+          <Button to="/" text="Home" color="green" />
+        </div>
       </div>
     );
   }

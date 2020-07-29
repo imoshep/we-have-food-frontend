@@ -2,10 +2,7 @@
 @import "../../services/media-queries.scss";
 
 .navbar {
-  &.hide {
-    opacity: 0;
-  }
-  opacity: 1;
+  // opacity: 1;
   position: fixed;
   width: 100vw;
   top: 0px;
@@ -13,13 +10,24 @@
   overflow: hidden;
   transition: all 0.4s ease;
 
-  & .top-list {
+  &.hide {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: linear-gradient(rgba($grey, 1), rgba($grey, 0) 80%);
+    & .navlink {
+      & a {
+        // color: whitesmoke;
+      }
+      // opacity: 0;
+    }
+  }
+
+  & .topList {
     display: flex;
     flex-direction: row;
     list-style: none;
   }
 
-  & .collapse-list {
+  & .collapseList {
     display: none;
     flex-direction: column;
     list-style: none;
@@ -63,7 +71,7 @@
     }
   }
 
-  .userIcon {
+  .topLeft {
     display: flex;
 
     position: absolute;

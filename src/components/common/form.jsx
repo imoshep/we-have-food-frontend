@@ -57,13 +57,9 @@ class Form extends Component {
     );
   }
 
-  renderSubmitButton(label) {
+  renderSubmitButton(label, className) {
     return (
-      <button
-        disabled={this.validate()}
-        type="submit"
-        className="btn btn-primary col-12 col-lg-3"
-      >
+      <button isdisabled={this.validate()} type="submit" className={className}>
         {label}
       </button>
     );
