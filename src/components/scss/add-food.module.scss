@@ -1,1 +1,24 @@
-@import "../../services/color-palette.scss";
+.addFood {
+  min-height: 97vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form {
+  min-height: 92vh;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.submit {
+  height: 60px;
+}
+
+.formButtons {
+  display: flex;
+  flex-direction: row;
+}

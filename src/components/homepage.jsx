@@ -37,11 +37,17 @@ class Homepage extends Component {
           </h1>
         </header>
         <section className={styles.content}>
-          <p className={styles.content__about}>
-            הצלת מזון היא וואלה איזה אחלה זה כזה טעים לבשל אוכל שהיה נזרק. אם יש
-            לכם אוכל שאתם כבר לא מתכוונים להשתמש בו - בואו ותראו איזה כיף זה
-            לחלוק אותו ולהביא אותו למי שיהנה ממנו!
-          </p>
+          <div className={styles.content__about}>
+            <p>
+              הצלת מזון היא וואלה איזה אחלה זה כזה טעים לבשל אוכל שהיה נזרק ועוד
+              כל מיני מילים.
+            </p>
+            <br />
+            <p>
+              אם יש לכם אוכל שאתם כבר לא מתכוונים להשתמש בו - בואו ותראו איזה
+              כיף זה לחלוק אותו ולתת אותו למי שיהנה ממנו!
+            </p>
+          </div>
           <div className={styles.content__addFood}>
             <Button text="יש לי אוכל!" to="/food/add" color="green" />
           </div>

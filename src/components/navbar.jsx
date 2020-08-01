@@ -25,8 +25,8 @@ class Navbar extends Component {
     let { hideNav } = this.state;
 
     entries.forEach((entry) => {
-      console.dir(entry);
-      console.log("prevRatio: " + this.prevRatio);
+      // console.dir(entry);
+      // console.log("prevRatio: " + this.prevRatio);
       if (entry.intersectionRatio < this.prevRatio) {
         hideNav = false;
       } else {

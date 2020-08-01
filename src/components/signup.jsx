@@ -1,6 +1,5 @@
 import React from "react";
-import Form from "./common/form";
-import Button from "./common/button";
+import Form from "./common/forms/form";
 import { toast } from "react-toastify";
 import Joi from "joi-browser";
 import http from "../services/httpService.js";

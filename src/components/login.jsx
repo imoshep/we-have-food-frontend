@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import Form from "./common/form";
+import Form from "./common//forms/form";
 import userService from "../services/userService";
 import Button from "./common/button";
 import Joi from "joi-browser";
@@ -13,18 +12,31 @@ class Login extends Form {
   };
 
   schema = {
-    email: Joi.string().required().email().label("Email"),
-    password: Joi.string().required().min(6).label("Password"),
+    email: Joi.string()
+      .required()
+      .email()
+      .label("Email")
+      .error(() => {
+        return {
+          message: "יש להזין כתובת אימייל תקנית",
+        };
+      }),
+    password: Joi.string()
+      .required()
+      .min(6)
+      .label("Password")
+      .error(() => {
+        return {
+          message: "שישה תוים לפחות",
+        };
+      }),
   };
 
   doSubmit = async () => {
     const { email, password } = this.state.data;
     try {
       await userService.login(email, password);
-      let from = this.props.location.state?.from?.pathname;
-      window.location = from
-        ? (window.location = from)
-        : (window.location = "/");
+      window.location = "/food/add";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         this.setState({ errors: { password: ex.response.data } });
