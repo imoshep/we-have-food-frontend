@@ -3,7 +3,9 @@ import React from "react";
 const TextArea = ({ name, label, formID, rowsNum, error, style, ...rest }) => {
   return (
     <div className="form-group">
-      <label htmlFor={name}>{label}</label>
+      <label htmlFor={name} style={style.label}>
+        {label}
+      </label>
       <br />
       <textarea
         {...rest}

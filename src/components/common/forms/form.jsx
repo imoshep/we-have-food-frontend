@@ -48,7 +48,6 @@ class Form extends Component {
     const data = { ...this.state.data };
     data[input.name] = input.value;
     this.setState({ data, errors });
-    console.log(this.state.data);
   };
 
   handleUpload = ({ currentTarget: input }) => {
@@ -72,7 +71,7 @@ class Form extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const errors = this.validate();
+    const errors = this.validateForm();
     this.setState({ errors: errors || {} });
     if (errors) return;
 
@@ -82,7 +81,7 @@ class Form extends Component {
   /////// INPUT RENDERING ///////
   inputStyle = {
     label: {
-      marginBlockStart: "1rem",
+      marginTop: "1rem",
     },
     input: {
       backgroundColor: "white",
@@ -90,7 +89,6 @@ class Form extends Component {
       borderRadius: "13px",
       border: "3px inset grey",
       marginBlockStart: ".25rem",
-      marginBlockEnd: "1rem",
       width: "100%",
       fontFamily: "sans-serif",
     },
@@ -104,11 +102,11 @@ class Form extends Component {
     const { data, errors } = this.state;
     return (
       <Input
-        onChange={type === "file" ? this.handleUpload : this.handleChange}
+        onChange={this.handleChange}
         type={type}
         name={inputName}
         label={label}
-        value={data[inputName] ? data[inputName] : ""}
+        value={data[inputName]}
         error={errors[inputName]}
         style={this.inputStyle}
       />
@@ -131,10 +129,25 @@ class Form extends Component {
     );
   }
 
+  renderUpload(inputName, label, accept) {
+    const { errors } = this.state;
+    return (
+      <Input
+        type="file"
+        onChange={this.handleUpload}
+        name={inputName}
+        label={label}
+        accept={accept}
+        error={errors[inputName]}
+        style={this.inputStyle}
+      />
+    );
+  }
+
   renderSubmitButton(label, className) {
     return (
       <button
-        isdisabled={this.validateForm()}
+        disabled={this.validateForm()}
         type="submit"
         className={className}
       >

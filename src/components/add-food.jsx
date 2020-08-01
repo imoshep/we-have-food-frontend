@@ -35,15 +35,7 @@ class AddFood extends Form {
           message: "יש להזין תיאור ",
         };
       }),
-    foodImage: Joi.string()
-      .min(2)
-      .max(255)
-      .label("Food Image")
-      .error(() => {
-        return {
-          message: "שני תוים לפחות",
-        };
-      }),
+    foodImage: Joi.any(),
     foodLocation: Joi.string()
       .min(2)
       .max(255)
@@ -62,9 +54,11 @@ class AddFood extends Form {
   doSubmit = async () => {
     const data = { ...this.state.data };
     if (!data.foodImage) delete data.foodImage;
-    await foodService.createFood(data);
+
+    await foodService.createFood(data).then((res) => console.log(res));
     toast("תודה על השיתוף!");
-    this.props.history.replace("/");
+
+    // this.props.history.replace("/");
   };
 
   render() {
@@ -78,6 +72,7 @@ class AddFood extends Form {
             action=""
             method="POST"
             autoComplete="off"
+            encType="multipart/form-data"
           >
             {this.renderInput("foodTitle", "איזה אוכל?")}
             {this.renderTextArea(
@@ -86,7 +81,7 @@ class AddFood extends Form {
               "add-food-form",
               "5"
             )}
-            {this.renderInput("foodImage", "רוצה לצרף תמונה?", "file")}
+            {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
             {this.renderInput("foodLocation", "איפה האוכל?")}
             <div className={styles.formButtons}>
               {this.renderSubmitButton("שיתוף מזון", "submit button green")}
@@ -97,9 +92,9 @@ class AddFood extends Form {
           </form>
           <div>
             <Button to="/" text="Home" color="green" />
-            {/* <p style={{ fontSize: "2rem" }} onClick={this.logData}>
+            <p style={{ fontSize: "2rem" }} onClick={this.logData}>
               Log Data
-            </p> */}
+            </p>
           </div>
         </div>
       </div>
