@@ -78,6 +78,15 @@ class Form extends Component {
     this.doSubmit();
   };
 
+  handleClear = (e) => {
+    e.preventDefault();
+    let { data, errors, form } = { ...this.state };
+    data = { foodTitle: "", foodDesc: "", foodImage: null, foodLocation: "" };
+    errors = {};
+    form.reset();
+    this.setState({ data, errors });
+  };
+
   /////// INPUT RENDERING ///////
   inputStyle = {
     label: {

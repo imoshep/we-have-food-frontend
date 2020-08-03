@@ -10,8 +10,9 @@ import foodService from "../services/foodService";
 
 class AddFood extends Form {
   state = {
-    data: { foodTitle: "", foodDesc: "", foodImage: null, foodLocation: "" },
+    data: { foodTitle: "", foodDesc: "", foodLocation: "" },
     errors: {},
+    form: null,
   };
 
   schema = {
@@ -48,18 +49,21 @@ class AddFood extends Form {
   };
 
   logData = () => {
-    console.log(this.state.data);
+    console.log(this.state);
   };
 
   doSubmit = async () => {
-    const data = { ...this.state.data };
-    if (!data.foodImage) delete data.foodImage;
-
-    await foodService.createFood(data).then((res) => console.log(res));
+    const formElement = document.forms.namedItem("add-food-form");
+    await foodService.createFood(formElement);
     toast("תודה על השיתוף!");
 
-    // this.props.history.replace("/");
+    this.props.history.replace("/");
   };
+
+  componentDidMount() {
+    const form = document.getElementById("add-food-form");
+    this.setState({ form });
+  }
 
   render() {
     return (
@@ -68,6 +72,7 @@ class AddFood extends Form {
           <h3>איזה אוכל יש לך?</h3>
           <form
             id="add-food-form"
+            name="add-food-form"
             onSubmit={this.handleSubmit}
             action=""
             method="POST"
@@ -85,9 +90,9 @@ class AddFood extends Form {
             {this.renderInput("foodLocation", "איפה האוכל?")}
             <div className={styles.formButtons}>
               {this.renderSubmitButton("שיתוף מזון", "submit button green")}
-              <Link to="" className="button red">
+              <span onClick={this.handleClear} className="button red">
                 ניקוי
-              </Link>
+              </span>
             </div>
           </form>
           <div>
