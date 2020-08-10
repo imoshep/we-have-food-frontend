@@ -1,3 +1,4 @@
 {
-  "apiUrl": "http://localhost:8181/api"
+  "apiUrl": "http://localhost:8181/api",
+  "googleMapsApiKey": "AIzaSyCLfJp2UVWTN562gmIBxMsgNpNG2hP5DHg"
 }

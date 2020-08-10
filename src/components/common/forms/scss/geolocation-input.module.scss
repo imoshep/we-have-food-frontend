@@ -1,0 +1,40 @@
+.label {
+  margin-top: 1rem;
+}
+
+.input {
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 13px;
+  border: 3px inset grey;
+  margin-block-start: 0.25rem;
+  width: 100%;
+  font-family: sans-serif;
+}
+
+.errorMessage {
+  color: red;
+  display: block;
+}
+
+// .inputButtons {
+//   display: flex;
+//   justify-content: space-between;
+// }
+
+.button {
+  margin: 0 0.5rem;
+}
+
+.mapContainer {
+  height: 45rem;
+  width: 100%;
+  background-color: lightBlue;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+:global .showMap {
+  display: block;
+}

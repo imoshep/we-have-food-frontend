@@ -31,4 +31,7 @@
   &.mustard {
     background-color: $mustard;
   }
+  &:disabled {
+    opacity: 0.5;
+  }
 }
