@@ -13,6 +13,7 @@ import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import AddFood from "./components/add-food";
 import Homepage from "./components/homepage";
+import ViewFood from "./components/view-food";
 
 class App extends Component {
   state = {};
@@ -27,7 +28,7 @@ class App extends Component {
 
     return (
       <div className="app-container" dir="rtl">
-        <ToastContainer />
+        <ToastContainer pauseOnFocusLoss={false} rtl />
         <Navbar user={user} />
         <main>
           <div id="content">
@@ -37,6 +38,7 @@ class App extends Component {
               <Route path="/user/signup" exact component={Signup} />
               <Route path="/user/logout" exact component={Logout} />
               <ProtectedRoute path="/food/add" exact component={AddFood} />
+              <ProtectedRoute path="/food/search" exact component={ViewFood} />
             </Switch>
           </div>
         </main>

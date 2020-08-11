@@ -12,6 +12,11 @@ export function createFood(form, location) {
   return http.post(`${apiUrl}/food`, formData).catch((err) => console.log(err));
 }
 
+export function getFood() {
+  return http.get(`${apiUrl}/food`);
+}
+
 export default {
   createFood,
+  getFood,
 };

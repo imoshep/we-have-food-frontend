@@ -1,0 +1,18 @@
+.viewFood {
+}
+
+.pageHeader {
+  min-height: 20vh;
+  display: flex;
+  //   flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.headerText {
+  margin-bottom: 1rem;
+}
+
+.map {
+  border: 1px solid #ccc;
+}

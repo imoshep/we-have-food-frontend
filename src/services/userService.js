@@ -14,7 +14,8 @@ export function getCurrentUser() {
     const jwt = getJwt();
     return jwtDecode(jwt);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    // console.trace();
     return null;
   }
 }

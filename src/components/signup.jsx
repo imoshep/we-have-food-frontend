@@ -8,7 +8,7 @@ import styles from "./scss/signup.module.scss";
 
 class Signup extends Form {
   state = {
-    data: { name: "", email: "", password: "" },
+    data: { name: "", email: "", password: "", passwordRepeat: "", phone: "" },
     errors: {},
   };
 
@@ -41,6 +41,24 @@ class Signup extends Form {
           message: "שישה תוים לפחות",
         };
       }),
+    passwordRepeat: Joi.string()
+      .valid(Joi.ref("password"))
+      .required()
+      .label("Confirm password")
+      .error(() => {
+        return {
+          message: "יש להקליד אותה סיסמא",
+        };
+      }),
+    phone: Joi.string()
+      .min(9)
+      .max(10)
+      .regex(/^0[2-9]\d{7,8}$/)
+      .error(() => {
+        return {
+          message: "יש להקליד ספרות בלבד",
+        };
+      }),
   };
 
   doSubmit = async () => {
@@ -71,6 +89,8 @@ class Signup extends Form {
             {this.renderInput("name", "שם:")}
             {this.renderInput("email", "כתובת אימייל:", "email")}
             {this.renderInput("password", "סיסמא:", "password")}
+            {this.renderInput("passwordRepeat", "סיסמא בשנית:", "password")}
+            {this.renderInput("phone", "מס' טלפון:", "tel")}
             {this.renderSubmitButton("בואו נתחיל", "button green")}
             <br />
           </form>

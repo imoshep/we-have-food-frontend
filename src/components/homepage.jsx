@@ -49,7 +49,13 @@ class Homepage extends Component {
             </p>
           </div>
           <div className={styles.content__addFood}>
-            <Button text="יש לי אוכל!" to="/food/add" color="green" />
+            <Button
+              text="יש לי אוכל!"
+              to="/food/add"
+              color="green"
+              style={{ marginBottom: "0.5rem" }}
+            />
+            <Button text="חיפוש אוכל" to="/food/search" color="mustard" />
           </div>
           <div>
             <h3>הנה עוד מקומות שכדאי לכם להציץ בהם:</h3>
