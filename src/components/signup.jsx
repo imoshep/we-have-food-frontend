@@ -1,9 +1,11 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import Form from "./common/forms/form";
+import { signup, login, getCurrentUser } from "../services/userService";
+
 import { toast } from "react-toastify";
 import Joi from "joi-browser";
-import http from "../services/httpService.js";
-import { apiUrl } from "../config.json";
+
 import styles from "./scss/signup.module.scss";
 
 class Signup extends Form {
@@ -62,11 +64,13 @@ class Signup extends Form {
   };
 
   doSubmit = async () => {
-    const { name, email, password } = this.state.data;
+    const { name, email, password, phone } = this.state.data;
     try {
-      await http.post(`${apiUrl}/users`, { name, email, password });
+      // await http.post(`${apiUrl}/users`, { name, email, password, phone });
+      await signup(name, email, password, phone);
+      await login(email, password);
       toast("You were added to the system. Please log in.");
-      window.location = this.props.location.state.from.pathname;
+      window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         this.setState({ errors: { password: ex.response.data } });
@@ -75,7 +79,8 @@ class Signup extends Form {
   };
 
   render() {
-    // console.log(this.props.location);
+    if (getCurrentUser()) return <Redirect to="/" />;
+
     return (
       <div className={styles.signup}>
         <div className={styles.form}>

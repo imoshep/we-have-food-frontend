@@ -1,0 +1,35 @@
+.viewFood {
+  min-height: 100vh;
+}
+
+.pageHeader {
+  min-height: 20vh;
+  display: flex;
+  //   flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.headerText {
+  margin-bottom: 1rem;
+}
+
+.form {
+  min-height: 42vh;
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.submit {
+  margin: 1rem auto 0.5rem;
+}
+
+.foodList {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

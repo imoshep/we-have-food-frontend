@@ -49,6 +49,7 @@ class GeolocationInput extends Component {
           <div id="map-container" className={styles.mapContainer}>
             {displayMap ? (
               <GoogleMap
+                shouldListen={true}
                 height="15rem"
                 sendErrToParent={this.props.sendErrToParent}
                 sendLocationToParent={this.props.sendLocationToParent}

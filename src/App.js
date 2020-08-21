@@ -13,6 +13,8 @@ import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import AddFood from "./components/add-food";
 import Homepage from "./components/homepage";
+import FindFood from "./components/find-food";
+import ViewUser from "./components/view-user";
 import ViewFood from "./components/view-food";
 
 class App extends Component {
@@ -37,8 +39,11 @@ class App extends Component {
               <Route path="/user/login" exact component={Login} />
               <Route path="/user/signup" exact component={Signup} />
               <Route path="/user/logout" exact component={Logout} />
+              <Route path="/user/me" exact component={ViewUser} />
               <ProtectedRoute path="/food/add" exact component={AddFood} />
-              <ProtectedRoute path="/food/search" exact component={ViewFood} />
+              <Route path="/food/search" exact component={FindFood} />
+              <Route path="/food" component={ViewFood} />
+              <Route path="/" component={Homepage} />
             </Switch>
           </div>
         </main>

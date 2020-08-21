@@ -5,6 +5,15 @@ import jwtDecode from "jwt-decode";
 
 const tokenKey = "token";
 
+export async function getUserInfo(ID) {
+  try {
+    const { data } = await http.get(`${apiUrl}/users?id=${ID}`);
+    return data;
+  } catch (err) {
+    return { message: "לא נמצא משתמש", error: err };
+  }
+}
+
 export function logout() {
   localStorage.removeItem(tokenKey);
 }
@@ -25,15 +34,17 @@ export async function login(email, password) {
   localStorage.setItem(tokenKey, data.token);
 }
 
-export async function signup(name, email, password) {
+export async function signup(name, email, password, phone) {
+  console.log("signup running");
   try {
-    await http.post(`${apiUrl}/users`, { name, email, password });
+    await http.post(`${apiUrl}/users`, { name, email, password, phone });
   } catch (err) {
     return err;
   }
 }
 
 export default {
+  getUserInfo,
   login,
   getCurrentUser,
   logout,

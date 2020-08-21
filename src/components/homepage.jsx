@@ -29,8 +29,12 @@ class Homepage extends Component {
     const { recommendations } = this.state;
     return (
       <div className={styles.container}>
-        <header className={styles.header} id="header" style={this.headerStyle}>
-          <h1 className={styles.header__title}>
+        <header
+          className={styles.pageHeader}
+          id="header"
+          style={this.headerStyle}
+        >
+          <h1 className={styles.headerText}>
             <span dir="ltr">We Have Food!</span>
             <br />
             יש לנו אוכל!

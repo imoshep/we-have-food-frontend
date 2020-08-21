@@ -6,12 +6,14 @@ import Form from "./common/forms/form";
 import Button from "./common/button";
 import styles from "./scss/add-food.module.scss";
 import foodService from "../services/foodService";
-import GeolocationInput from "./common/forms/geolocation-input";
+// import GeolocationInput from "./common/forms/geolocation-input";
+import getCitiesFromApi from "../services/citiesService";
 
 class AddFood extends Form {
   state = {
-    data: { foodTitle: "", foodDesc: "", foodLocation: null },
+    data: { foodTitle: "", foodDesc: "", foodCity: "" },
     errors: {},
+    cities: {},
     form: null,
   };
 
@@ -36,18 +38,23 @@ class AddFood extends Form {
           message: "יש להזין תיאור ",
         };
       }),
-    foodLocation: Joi.object({
-      lat: Joi.number().min(-90).max(90),
-      lng: Joi.number().min(-180).max(180),
-    }).required(),
+    foodCity: Joi.string()
+      .required()
+      .min(2)
+      .max(255)
+      .label("Food City")
+      .error(() => {
+        return { message: "יש לבחור עיר" };
+      }),
+    // foodLocation: Joi.object({
+    //   lat: Joi.number().min(-90).max(90),
+    //   lng: Joi.number().min(-180).max(180),
+    // }).required(),
     foodImage: Joi.any(),
   };
 
   logData = () => {
-    const formElement = document.forms.namedItem("add-food-form");
-    console.dir(formElement);
-    console.dir(formElement.foodImage.files.length);
-    console.dir(this.state.data);
+    console.dir(this.state);
   };
 
   registerLocationError = (errorFromGeolocationComponent) => {
@@ -56,16 +63,22 @@ class AddFood extends Form {
     this.setState({ errors });
   };
 
-  registerLocationLatLng = (latlng) => {
-    let { data } = this.state;
-    console.log(typeof latlng.lat);
-    console.log(latlng);
-    latlng = {
-      lat: parseFloat(latlng.lat).toFixed(7),
-      lng: parseFloat(latlng.lng).toFixed(7),
-    };
-    data.foodLocation = latlng;
-    this.setState({ data });
+  // registerLocationLatLng = (latlng) => {
+  //   let { data } = this.state;
+  //   // console.log(typeof latlng.lat);
+  //   // console.log(latlng);
+  //   latlng = {
+  //     lat: parseFloat(latlng.lat).toFixed(7),
+  //     lng: parseFloat(latlng.lng).toFixed(7),
+  //   };
+  //   data.foodLocation = latlng;
+  //   this.setState({ data });
+  // };
+
+  getCities = async () => {
+    let { cities } = this.state;
+    cities = await getCitiesFromApi();
+    this.setState({ cities });
   };
 
   handleClear = () => {
@@ -73,20 +86,21 @@ class AddFood extends Form {
   };
 
   doSubmit = async () => {
-    let { foodLocation } = this.state.data;
-    foodLocation = JSON.stringify(foodLocation);
     const formElement = document.forms.namedItem("add-food-form");
-    await foodService.createFood(formElement, foodLocation);
+
+    await foodService.createFood(formElement);
     toast.success("תודה על השיתוף!");
     this.props.history.replace("/");
   };
 
   componentDidMount() {
+    this.getCities();
     const form = document.getElementById("add-food-form");
     this.setState({ form });
   }
 
   render() {
+    const { cities } = this.state;
     return (
       <div className={styles.addFood}>
         <div className={styles.form}>
@@ -108,13 +122,19 @@ class AddFood extends Form {
               "5"
             )}
             {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
-            <GeolocationInput
+            {this.renderDatalist(
+              "foodCity",
+              "cities",
+              "באיזו עיר",
+              cities.names
+            )}
+            {/* <GeolocationInput
               name="foodLoaction"
               label="* איפה האוכל?"
               sendErrToParent={this.registerLocationError}
               sendLocationToParent={this.registerLocationLatLng}
               error={this.state.errors.foodLocation}
-            />
+            /> */}
             <div className={styles.formButtons}>
               {this.renderSubmitButton("שיתוף מזון", "submit button green")}
               <span onClick={this.handleClear} className="button red">
@@ -124,9 +144,9 @@ class AddFood extends Form {
           </form>
           <div>
             <Button to="/" text="Home" color="green" />
-            <p style={{ fontSize: "2rem" }} onClick={this.logData}>
+            {/* <p style={{ fontSize: "2rem" }} onClick={this.logData}>
               Log Data
-            </p>
+            </p> */}
           </div>
         </div>
       </div>

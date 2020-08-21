@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Input from "./input";
 import Joi from "joi-browser";
 import TextArea from "./textArea";
+import Datalist from "./datalist";
 
 class Form extends Component {
   state = {
@@ -39,6 +40,17 @@ class Form extends Component {
   }
 
   /////// EVENT HANDELERS ///////
+  wrdlimit = (input) => {
+    let elm = input.nextSibling.firstElementChild;
+    while (elm) {
+      if (elm.value.startsWith(input.value)) {
+        elm.removeAttribute("disabled");
+      } else {
+        elm.setAttribute("disabled", true);
+      }
+      elm = elm.nextElementSibling;
+    }
+  };
 
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
@@ -46,6 +58,7 @@ class Form extends Component {
     if (errorMessage) errors[input.name] = errorMessage;
     else delete errors[input.name];
     const data = { ...this.state.data };
+    if (input.list) this.wrdlimit(input);
     data[input.name] = input.value;
     this.setState({ data, errors });
   };
@@ -131,6 +144,22 @@ class Form extends Component {
         formID={formID}
         rowsNum={rowsNum}
         label={label}
+        value={data[inputName]}
+        error={errors[inputName]}
+        style={this.inputStyle}
+      />
+    );
+  }
+
+  renderDatalist(inputName, listID, label, arr, ...rest) {
+    const { data, errors } = this.state;
+    return (
+      <Datalist
+        onChange={this.handleChange}
+        name={inputName}
+        listID={listID}
+        label={label}
+        listArray={arr}
         value={data[inputName]}
         error={errors[inputName]}
         style={this.inputStyle}

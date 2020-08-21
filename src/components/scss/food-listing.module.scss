@@ -1,23 +1,7 @@
 @import "../../services/scss/color-palette.scss";
 
-.viewFood {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  //   justify-content: space-around;
-  align-items: center;
-}
-
-.pageHeader {
-  min-height: 23vh;
-  display: flex;
-  //   flex-direction: column;
-  justify-content: center;
-  align-items: flex-end;
-}
-
-.headerText {
-  margin-bottom: 1rem;
+.header {
+  font-size: 2rem;
 }
 
 .table {

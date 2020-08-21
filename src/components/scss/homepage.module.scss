@@ -7,19 +7,19 @@
   align-items: center;
 }
 
-.header {
+.pageHeader {
   width: 100%;
   min-height: 35vh;
   display: flex;
   justify-content: center;
   padding-block-start: 2rem;
+}
 
-  &__title {
-    color: $beige-light;
-    text-shadow: 5px 5px 10px black;
-    text-align: center;
-    align-self: center;
-  }
+.headerText {
+  color: $beige-light;
+  text-shadow: 5px 5px 10px black;
+  text-align: center;
+  align-self: center;
 }
 
 .content {

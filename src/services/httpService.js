@@ -2,9 +2,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import getJwt from "./getJwt";
 
-axios.defaults.headers.common["x-auth-token"] = getJwt();
+const mainInstance = axios.create({
+  headers: { "x-auth-token": getJwt() },
+});
 
-axios.interceptors.response.use(null, (error) => {
+mainInstance.interceptors.response.use(null, (error) => {
   const expectedError = error.response && error.response.status >= 403;
   if (expectedError)
     toast.error("An unexpected error occured. Please try again later.");
@@ -12,9 +14,9 @@ axios.interceptors.response.use(null, (error) => {
 });
 
 export default {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  patch: axios.patch,
-  delete: axios.delete,
+  get: mainInstance.get,
+  post: mainInstance.post,
+  put: mainInstance.put,
+  patch: mainInstance.patch,
+  delete: mainInstance.delete,
 };

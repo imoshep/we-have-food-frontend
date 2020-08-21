@@ -86,7 +86,7 @@ class Navbar extends Component {
               <p> </p>
             </li>
             <li className={styles.navlink}>
-              <NavLink to="/food">למצוא אוכל</NavLink>
+              <NavLink to="/food/search">למצוא אוכל</NavLink>
             </li>
             <li className={styles.navlink}>
               <NavLink to="/users/my-favorites">הצעות מעניינות</NavLink>
@@ -99,7 +99,7 @@ class Navbar extends Component {
           {user ? (
             <span className={styles.topLeft}>
               <li className={styles.navlink}>
-                <NavLink to="/user/my">
+                <NavLink to="/user/me">
                   <FontAwesomeIcon icon={faUserCircle} />
                 </NavLink>
               </li>
