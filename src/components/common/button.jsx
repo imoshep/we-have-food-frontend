@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./scss/button.module.scss";
 
-const Button = (props) => {
+const Button = ({ to, color, style, text, ...rest }) => {
   return (
-    <Link to={props.to} className={`button ${props.color}`} style={props.style}>
-      {props.text}
+    <Link {...rest} to={to} className={`button ${color}`} style={style}>
+      {text}
     </Link>
   );
 };

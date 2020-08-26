@@ -13,10 +13,10 @@ class Form extends Component {
   validateForm() {
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
-    if (!error) return null;
+    if (!error) return false;
     const errorsToState = {};
     for (let item of error.details) errorsToState[item.path[0]] = item.message;
-    return errorsToState;
+    return true
   }
 
   validateProperty({ name, value }) {

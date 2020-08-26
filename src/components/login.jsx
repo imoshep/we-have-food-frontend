@@ -36,7 +36,7 @@ class Login extends Form {
     const { email, password } = this.state.data;
     try {
       await userService.login(email, password);
-      window.location = "/food/add";
+      window.location = "/";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         this.setState({ errors: { password: ex.response.data } });

@@ -5,7 +5,7 @@ import Joi from "joi-browser";
 import Form from "./common/forms/form";
 import Button from "./common/button";
 import styles from "./scss/add-food.module.scss";
-import foodService from "../services/foodService";
+import { createFood } from "../services/foodService";
 // import GeolocationInput from "./common/forms/geolocation-input";
 import getCitiesFromApi from "../services/citiesService";
 
@@ -53,15 +53,17 @@ class AddFood extends Form {
     foodImage: Joi.any(),
   };
 
-  logData = () => {
+  logState = () => {
+    const formElement = document.forms.namedItem("add-food-form");
+    console.log(formElement);
     console.dir(this.state);
   };
 
-  registerLocationError = (errorFromGeolocationComponent) => {
-    let { errors } = this.state;
-    errors.foodLocation = errorFromGeolocationComponent;
-    this.setState({ errors });
-  };
+  // registerLocationError = (errorFromGeolocationComponent) => {
+  //   let { errors } = this.state;
+  //   errors.foodLocation = errorFromGeolocationComponent;
+  //   this.setState({ errors });
+  // };
 
   // registerLocationLatLng = (latlng) => {
   //   let { data } = this.state;
@@ -76,28 +78,38 @@ class AddFood extends Form {
   // };
 
   getCities = async () => {
-    let { cities } = this.state;
-    cities = await getCitiesFromApi();
-    this.setState({ cities });
+    let cities;
+    try {
+      cities = await getCitiesFromApi();
+      return { list: cities, error: null };
+    } catch (err) {
+      console.log(err);
+      return { list: null, error: err.message };
+    }
   };
 
   handleClear = () => {
-    this.form.reset();
+    let { data } = this.state;
+    data = { foodTitle: "", foodDesc: "", foodCity: "" };
+    this.setState({ data });
   };
 
   doSubmit = async () => {
     const formElement = document.forms.namedItem("add-food-form");
 
-    await foodService.createFood(formElement);
+    await createFood(formElement);
     toast.success("תודה על השיתוף!");
     this.props.history.replace("/");
   };
 
-  componentDidMount() {
-    this.getCities();
-    const form = document.getElementById("add-food-form");
-    this.setState({ form });
-  }
+  componentDidMount = async () => {
+    let { cities, form } = this.state;
+    let { list, error } = await this.getCities();
+    list ? (cities = list) : console.log(error);
+    form = document.getElementById("add-food-form");
+    // console.log(form);
+    this.setState({ cities, form });
+  };
 
   render() {
     const { cities } = this.state;
@@ -122,12 +134,14 @@ class AddFood extends Form {
               "5"
             )}
             {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
-            {this.renderDatalist(
-              "foodCity",
-              "cities",
-              "באיזו עיר",
-              cities.names
-            )}
+            {cities
+              ? this.renderDatalist(
+                  "foodCity",
+                  "cities",
+                  "* באיזו עיר?",
+                  cities.names
+                )
+              : this.renderInput("foodCity", "* באיזו עיר?")}
             {/* <GeolocationInput
               name="foodLoaction"
               label="* איפה האוכל?"
@@ -144,8 +158,8 @@ class AddFood extends Form {
           </form>
           <div>
             <Button to="/" text="Home" color="green" />
-            {/* <p style={{ fontSize: "2rem" }} onClick={this.logData}>
-              Log Data
+            {/* <p style={{ fontSize: "2rem" }} onClick={this.logState}>
+              Log State
             </p> */}
           </div>
         </div>

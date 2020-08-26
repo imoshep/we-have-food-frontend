@@ -23,7 +23,7 @@ const citiesGetRequest = async () => {
         result.push(...response.data.result.records);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
   }
   return result;

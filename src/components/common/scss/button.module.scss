@@ -2,11 +2,13 @@
 
 :global .button {
   padding: 1.5rem;
-  border-radius: 23px;
+  margin: 0 auto;
+  border-radius: 10px;
   height: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   // for form  submit buttons:
   border: none;
   color: $beige-light;

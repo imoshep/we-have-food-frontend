@@ -1,132 +1,105 @@
-import React from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from "sweetalert2";
 
-import { serverUrl } from "../config.json";
-import styles from "./scss/food-listing.module.scss";
+class FoodListing extends Component {
+    state = { isSelected: false }
 
-const FoodListing = (props) => {
-  // const SM = useMediaQuery({ query: "(min-width: 576px)" });
-  const MD = useMediaQuery({ query: "(min-width: 768px)" });
+    fireFavoritesClick = ({ currentTarget: icon }) => {
+        let {isSelected} = this.state;
+        const foodId = icon.getAttribute("data-food-id");
+        this.props.registerFavorites(foodId)
+        isSelected = !isSelected;
+        this.setState({isSelected})
 
-  function popImage({ target }) {
-    console.log(target);
-    console.log(target.src);
+    }
+    
+    renderTitle(listing, addToFavorites) {
+        const {isSelected} = this.state;
 
-    let img = document.createElement("img");
-    let popup = document.getElementById("image-popup");
-    img.src = target.src;
-    img.width = "250";
-    popup.appendChild(img);
-    popup.classList.toggle("hide");
-    document.addEventListener("click", () => {
-      img.remove();
-      popup.classList.toggle("hide");
-    });
-  }
+        return (<React.Fragment>
+            {isSelected 
+            ? <FontAwesomeIcon
+                data-food-id={listing._id}
+                onClick={(e) => this.fireFavoritesClick(e)}
+                icon="star"
+            />
+            : <FontAwesomeIcon
+                data-food-id={listing._id}
+                onClick={(e) => this.fireFavoritesClick(e)}
+                icon={['far', 'star']}
+            />} &nbsp;
+            {listing.foodTitle}
+        </React.Fragment>)
+    }
 
-  function displayMore({ currentTarget: row }) {
-    let container = row.nextElementSibling.style;
-    container.display === "none"
-      ? (container.display = "table-row")
-      : (container.display = "none");
-  }
+    renderImage(listing, height) {
+        return (<img
+            src={listing.foodImage}
+            alt={listing.foodTitle}
+            height={height}
+            onClick={() => Swal.fire({
+            text: listing.foodTitle,
+            imageUrl: listing.foodImage
+            })}
+        />)
+    }
 
-  const renderMDscreen = () => {
-    return (
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>שם</th>
-            <th>תיאור</th>
-            <th>תמונה</th>
-            <th>מי מוסר?</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.array.map((listing) => {
-            return (
-              <tr key={listing._id}>
-                <td>{listing.foodTitle}</td>
-                <td>{listing.foodDesc}</td>
-                <td>
-                  <img
-                    src={serverUrl + listing.foodImage.slice(8)}
-                    alt={listing.foodTitle}
-                    height="150"
-                    onClick={popImage}
-                  ></img>
-                </td>
-                <td>
-                  <p>
-                    {listing.user.name}
-                    <br />
-                    {listing.user.phone}
-                    <br />
-                    {listing.user.email}
-                  </p>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    );
-  };
+    renderUser(listing) {
+        return (<p>
+            {listing.user.name}
+            <br />
+            {listing.user.phone}
+            <br />
+            {listing.user.email}
+            </p>)
+    }
 
-  const renderXSscreen = () => {
-    return (
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>שם</th>
-            <th>תיאור</th>
-            {/* <th>תמונה</th>
-              <th>מי מוסר?</th>
-              <th>טלפון</th> */}
-          </tr>
-        </thead>
-        <tbody>
-          {props.array.map((listing, idx, arr) => {
-            return (
-              <React.Fragment key={idx}>
-                <tr key={listing._id} onClick={displayMore}>
-                  <td>{listing.foodTitle}</td>
-                  <td>{listing.foodDesc}</td>
+    render() { 
+        let {listing, displayMore, addToFavorites, isMD} = this.props;
+        return (<React.Fragment>
+            {isMD 
+            ? <React.Fragment>
+                <tr>
+                    <td>
+                        {this.renderTitle(listing, this.fireFavoritesClick)}  
+                    </td>
+                    <td>
+                        {listing.foodDesc}
+                    </td>
+                    <td>
+                        {this.renderImage(listing, '150')}
+                    </td>
+                    <td>
+                        {this.renderUser(listing)}
+                    </td>
+                </tr>
+            </React.Fragment>
+            : <React.Fragment>
+                <tr onClick={displayMore}>
+                    <td>
+                        {this.renderTitle(listing, addToFavorites)}  
+                    </td>
+                    <td style={{display: "flex", justifyContent: "space-between", gap: '8px'}}>
+                        {listing.foodDesc}
+                        <FontAwesomeIcon icon="caret-down" size='lg'/>
+                    </td>
                 </tr>
                 <tr style={{ display: "none" }}>
-                  <td>
-                    <img
-                      src={serverUrl + listing.foodImage.slice(8)}
-                      height="100"
-                      alt={listing.foodTitle}
-                      onClick={popImage}
-                    ></img>
-                  </td>
-                  <td>
-                    <p>
-                      {listing.user.name}
-                      <br />
-                      {listing.user.phone}
-                      <br />
-                      {listing.user.email}
-                    </p>
-                  </td>
+                    <td>
+                        {this.renderImage(listing, '100')}
+                    </td>
+                    <td>
+                        {this.renderUser(listing)}
+                    </td>
                 </tr>
-              </React.Fragment>
-            );
-          })}
-        </tbody>
-      </table>
-    );
-  };
-
-  return (
-    <React.Fragment>
-      <h4 className={styles.header}>מזון למסירה ב{props.array[0].foodCity}</h4>
-      {MD ? renderMDscreen() : renderXSscreen()}
-      <div id="image-popup" className={`${styles.popup} hide`}></div>
-    </React.Fragment>
-  );
-};
-
+            </React.Fragment>
+            }
+        </React.Fragment>);
+    }
+}
+ 
 export default FoodListing;
+
+
+

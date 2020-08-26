@@ -5,6 +5,8 @@ import jwtDecode from "jwt-decode";
 
 const tokenKey = "token";
 
+export async function addfoodToFavorites(foodId) {}
+
 export async function getUserInfo(ID) {
   try {
     const { data } = await http.get(`${apiUrl}/users?id=${ID}`);
@@ -23,15 +25,14 @@ export function getCurrentUser() {
     const jwt = getJwt();
     return jwtDecode(jwt);
   } catch (error) {
-    // console.log(error);
-    // console.trace();
-    return null;
+    return error;
   }
 }
 
 export async function login(email, password) {
   const { data } = await http.post(`${apiUrl}/auth`, { email, password });
   localStorage.setItem(tokenKey, data.token);
+  return data.token;
 }
 
 export async function signup(name, email, password, phone) {
@@ -49,4 +50,5 @@ export default {
   getCurrentUser,
   logout,
   getJwt,
+  addfoodToFavorites,
 };

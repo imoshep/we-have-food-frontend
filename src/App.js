@@ -2,10 +2,19 @@ import React, { Component } from "react";
 import "./App.scss";
 import { Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import userService from "./services/userService";
 import "react-toastify/dist/ReactToastify.css";
-import ProtectedRoute from "./components/common/protected-route";
+import userService from "./services/userService";
 
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faUserCircle,
+  faPeopleArrows,
+  faStar,
+  faCaretDown,
+} from "@fortawesome/free-solid-svg-icons";
+import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
+
+import ProtectedRoute from "./components/common/protected-route";
 import Login from "./components/login";
 import Logout from "./components/logout";
 import Signup from "./components/signup";
@@ -16,11 +25,20 @@ import Homepage from "./components/homepage";
 import FindFood from "./components/find-food";
 import ViewUser from "./components/view-user";
 import ViewFood from "./components/view-food";
+import EditFood from "./components/edit-food";
 
 class App extends Component {
   state = {};
 
+ 
   componentDidMount() {
+    library.add(
+      faUserCircle,
+      faPeopleArrows,
+      faStar,
+      faCaretDown,
+      farStar
+    );
     const user = userService.getCurrentUser();
     this.setState({ user });
   }
@@ -29,7 +47,7 @@ class App extends Component {
     const { user } = this.state;
 
     return (
-      <div className="app-container" dir="rtl">
+      <div className="app-container">
         <ToastContainer pauseOnFocusLoss={false} rtl />
         <Navbar user={user} />
         <main>
@@ -40,12 +58,14 @@ class App extends Component {
               <Route path="/user/signup" exact component={Signup} />
               <Route path="/user/logout" exact component={Logout} />
               <Route path="/user/me" exact component={ViewUser} />
+              <ProtectedRoute path="/food/edit" exact component={EditFood} />
               <ProtectedRoute path="/food/add" exact component={AddFood} />
               <Route path="/food/search" exact component={FindFood} />
               <Route path="/food" component={ViewFood} />
               <Route path="/" component={Homepage} />
             </Switch>
           </div>
+        {/* <h2 onClick={() => console.log(this.state)}>log state</h2> */}
         </main>
         <footer>
           <Footer />

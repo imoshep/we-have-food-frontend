@@ -2,45 +2,32 @@
 @import "../../services/scss/media-queries.scss";
 
 .navbar {
-  // opacity: 1;
   position: fixed;
-  width: 100vw;
+  width: 100%;
   top: 0px;
   background-color: $grey;
+  border-bottom: 2px solid $black;
   overflow: hidden;
   transition: all 0.4s ease;
-
-  &.hide {
-    background-color: rgba(0, 0, 0, 0);
-    background-image: linear-gradient(rgba($grey, 1), rgba($grey, 0) 80%);
-    & .navlink {
-      & a {
-        // color: whitesmoke;
-      }
-      // opacity: 0;
-    }
-  }
+  
 
   & .topList {
     display: flex;
-    flex-direction: row;
     list-style: none;
   }
 
   & .collapseList {
-    display: none;
+    display: flex;
     flex-direction: column;
+    align-items: flex-start;
     list-style: none;
-    transition: all 1s ease-out;
+    max-height: 0;
+    transition: all 0.3s ease-out;
 
     @include respond(sm) {
-      display: flex;
+      max-height: 3rem;
+      margin:-3rem 3rem 0 0;
       flex-direction: row;
-    }
-
-    &.expand {
-      display: flex;
-      visibility: visible;
     }
   }
 
@@ -53,17 +40,9 @@
       color: $black;
       text-decoration: none;
       &:hover {
-        text-shadow: 0px 3px 10px black;
+        text-shadow: 0px 0px 10px black;
       }
-      //   &.active {
-
-      //   }
     }
-
-    // &.home {
-    //   display: inline-block;
-    // }
-
     &.burger {
       @include respond(sm) {
         display: none;
@@ -73,9 +52,6 @@
 
   .topLeft {
     display: flex;
-
-    position: absolute;
-    top: 0;
-    left: 8px;
+    margin-right: auto;
   }
 }

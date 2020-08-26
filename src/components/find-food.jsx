@@ -1,13 +1,14 @@
 import React from "react";
 import Form from "./common/forms/form";
+import Joi from "joi-browser";
 import styles from "./scss/find-food.module.scss";
-// import foodService from "../services/foodService";
-// import http from "../services/httpService";
 import getCitiesFromApi from "../services/citiesService";
 import { getUserInfo } from "../services/userService";
 import { searchFoodByCity } from "../services/foodService";
-import Joi from "joi-browser";
-import FoodListing from "./food-listing";
+import { serverUrl } from "../config.json";
+import FoodTable from "./find-food-table";
+import Button from "./common/button";
+import { indexOf } from "lodash";
 
 class FindFood extends Form {
   state = {
@@ -15,6 +16,7 @@ class FindFood extends Form {
     errors: { foodCity: "" },
     cities: {},
     foodList: [],
+    favorites: []
   };
 
   schema = {
@@ -26,34 +28,25 @@ class FindFood extends Form {
       }),
   };
 
-  listABGSH = async () => {
-    let { foodList } = this.state;
-    let response;
-    try {
-      response = await searchFoodByCity("אבו גוש");
-      foodList = response.data;
-      console.log(foodList);
-    } catch (err) {
-      console.log(err);
-    }
 
-    foodList.map(async (listing) => {
-      try {
-        listing.user = await getUserInfo(listing.user_id);
-        if (listing.user === "")
-          listing.user = {
-            _id: listing.user_id,
-            name: "לא נמצא משתמש",
-            phone: "",
-            email: "",
-          };
-      } catch (err) {
-        console.log(err);
-      }
-    });
+  registerFavorites = (foodId) => {
+    let {favorites} = this.state;
+    favorites.includes(foodId) 
+      ? favorites.splice(favorites.indexOf(foodId), 1)
+      : favorites.push(foodId)
+    this.setState({favorites}) 
+  }
 
-    this.setState({ foodList });
-  };
+  sendFavorites() {
+    // try send to server
+    // toast "success, to remove goto your profile"
+    // stay on this page
+    // catch => swal(error)
+
+    // food service function
+    // serverside favrites logic
+    // user/me favorites page
+  }
 
   getCities = async () => {
     let { cities } = this.state;
@@ -62,15 +55,23 @@ class FindFood extends Form {
   };
 
   doSubmit = async () => {
-    let { data, foodList } = this.state;
-    let response;
+    let { data, foodList, favorites } = this.state;
+    
+    favorites = [];
 
     try {
-      response = await searchFoodByCity(data.foodCity);
-      foodList = response.data.length > 0 ? response.data : "none";
+      let response = await searchFoodByCity(data.foodCity);
+      foodList = response.data?.length > 0 ? response.data : "none";
     } catch (err) {
       console.warn(err);
     }
+
+    if (foodList.length > 0 ) {
+      foodList.forEach((listing) => {
+        listing.foodImage = serverUrl + listing.foodImage.slice(8);
+      })
+    }
+    
 
     if (typeof foodList === "object") {
       await Promise.all(
@@ -91,7 +92,7 @@ class FindFood extends Form {
       );
     }
 
-    this.setState({ foodList });
+    this.setState({ foodList, favorites });
   };
 
   componentDidMount = () => {
@@ -99,7 +100,7 @@ class FindFood extends Form {
   };
 
   render() {
-    const { cities, foodList, data } = this.state;
+    const { cities, foodList, data, favorites } = this.state;
     return (
       <div className={styles.viewFood}>
         <header className={styles.pageHeader}>
@@ -112,27 +113,28 @@ class FindFood extends Form {
             method="GET"
             onSubmit={this.handleSubmit}
           >
-            {cities.names
+            {cities.names 
               ? this.renderDatalist(
-                  "foodCity",
-                  "cities",
-                  "חפשו לפי עיר",
-                  cities.names
-                )
-              : "loading"}
-            {this.renderSubmitButton("חיפוש", `${styles.submit} button green`)}
+                "foodCity",
+                "cities",
+                "חפשו לפי עיר",
+                cities.names
+              )
+              : <h2> עמוד בטעינה...</h2>}
+              {this.renderSubmitButton("חיפוש", `${styles.submit} button green`)} 
           </form>
-          {/* <p onClick={() => getUserInfo("12341234")}>run GET request</p>
-          <p onClick={() => this.listABGSH()}>list ABU GOSH</p>
-          <p onClick={() => console.log(this.state)}>log State</p> */}
+          {/* <p onClick={() => console.log(this.state)}>log State</p> */}
         </div>
         <div className={styles.foodList}>
           {foodList !== "none" && foodList.length > 0 && (
-            <FoodListing array={foodList} />
+            <React.Fragment>
+            <FoodTable array={foodList} registerFavorites={this.registerFavorites}/>
+            {favorites.length > 0 && <span className='button green' onClick={this.sendFavorites}>הוספה למועדפים</span>}
+            </React.Fragment>
           )}
           {foodList === "none" && (
             <p>מצטערים, אין כרגע אוכל למסירה ב{data.foodCity}</p>
-          )}
+          )} 
         </div>
       </div>
     );

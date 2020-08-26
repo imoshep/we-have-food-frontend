@@ -4,108 +4,61 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faHome,
-  faUserCircle,
   faUserPlus,
-  faPeopleArrows,
 } from "@fortawesome/free-solid-svg-icons";
+
 import styles from "./scss/navbar.module.scss";
 
 class Navbar extends Component {
   state = {
-    hideNav: true,
   };
 
-  collapseNavbar() {
-    document
-      .getElementById("collapse-list")
-      .classList.toggle(`${styles.expand}`);
-  }
+  toggleCollapseList() {
+    let collapseList = document.getElementById("collapse-list").style;
+    if (collapseList.maxHeight) {
+      collapseList.maxHeight = null;
+    } else {
+      collapseList.maxHeight = "15rem";
+    }
+  };
 
-  showNavbar(entries, observer) {
-    let { hideNav } = this.state;
-
-    entries.forEach((entry) => {
-      // console.dir(entry);
-      // console.log("prevRatio: " + this.prevRatio);
-      if (entry.intersectionRatio < this.prevRatio) {
-        hideNav = false;
-      } else {
-        hideNav = true;
-      }
-      this.prevRatio = entry.intersectionRatio;
-    });
-    // let scrollBarPosition = window.pageYOffset | document.body.scrollTop;
-    // scrollBarPosition < 60 ? (hideNav = true) : (hideNav = false);
-
-    this.setState({ hideNav });
-  }
 
   componentDidMount() {
-    this.container = document.querySelector("body");
-    this.prevRatio = 1;
-    this.creatObserver();
+    this.collapseList = document
+    .getElementById("collapse-list");
   }
-
-  creatObserver() {
-    let options = {
-      // root: document.querySelector(".app-container"),
-      root: null,
-      rootMargin: "0px",
-      threshold: [0, 0.3, 0.6, 1],
-    };
-    let observer = new IntersectionObserver(
-      this.showNavbar.bind(this),
-      options
-    );
-    observer.observe(this.container);
-  }
-
+  
   render() {
     const { user } = this.props;
-    const { hideNav } = this.state;
+
     return (
       <nav
-        className={`${styles.navbar} ${hideNav ? styles.hide : ""}`}
+        className={styles.navbar} 
         id="navbar"
       >
         <ul className={styles.topList}>
           <li
             className={`${styles.navlink} ${styles.burger}`}
-            id="burger"
-            onClick={this.collapseNavbar}
+            onClick={this.toggleCollapseList}
           >
             <FontAwesomeIcon icon={faBars} />
           </li>
-          <li className={`${styles.navlink} ${styles.home} ${styles.active}`}>
+          <li className={styles.navlink}>
             <NavLink to="/">
               <FontAwesomeIcon icon={faHome} />
             </NavLink>
           </li>
-          <span className={styles.collapseList} id="collapse-list">
-            <li className={styles.navlink}>
-              <p> </p>
-            </li>
-            <li className={styles.navlink}>
-              <NavLink to="/food/search">למצוא אוכל</NavLink>
-            </li>
-            <li className={styles.navlink}>
-              <NavLink to="/users/my-favorites">הצעות מעניינות</NavLink>
-            </li>
-            <li className={styles.navlink}>
-              <NavLink to="/food/add">שתף אוכל</NavLink>
-            </li>
-          </span>
-
-          {user ? (
+          
+          {user?._id ? (
             <span className={styles.topLeft}>
               <li className={styles.navlink}>
                 <NavLink to="/user/me">
-                  <FontAwesomeIcon icon={faUserCircle} />
+                  <FontAwesomeIcon icon="user-circle" />
                 </NavLink>
               </li>
               <li className={styles.navlink}>
                 <NavLink to="/user/logout">
-                  <FontAwesomeIcon icon={faPeopleArrows} />
+                  <FontAwesomeIcon icon="people-arrows" />
                 </NavLink>
               </li>
             </span>
@@ -117,6 +70,17 @@ class Navbar extends Component {
             </li>
           )}
         </ul>
+        <ul className={styles.collapseList} id="collapse-list">
+            <li className={styles.navlink}>
+              <NavLink to="/food/search" onClick={this.toggleCollapseList}>למצוא אוכל</NavLink>
+            </li>
+            <li className={styles.navlink}>
+              <NavLink to="/users/my-favorites" onClick={this.toggleCollapseList}>הצעות מעניינות</NavLink>
+            </li>
+            <li className={styles.navlink}>
+              <NavLink to="/food/add" onClick={this.toggleCollapseList}>שתף אוכל</NavLink>
+            </li>
+          </ul>
       </nav>
     );
   }
