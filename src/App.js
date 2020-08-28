@@ -78,3 +78,8 @@ class App extends Component {
 }
 
 export default App;
+
+
+
+  // "serverUrl": "https://localhost:5000/",
+  // "apiUrl": "https://localhost:5000/api",

@@ -63,7 +63,7 @@ class FindFood extends Form {
       let response = await searchFoodByCity(data.foodCity);
       foodList = response.data?.length > 0 ? response.data : "none";
     } catch (err) {
-      console.warn(err);
+      toast.error(err);
     }
 
     if (typeof foodlist === 'object' && foodList.length > 0 ) {
@@ -86,7 +86,7 @@ class FindFood extends Form {
                 email: "",
               };
           } catch (err) {
-            console.log(err);
+            toast.error(err);
           }
         })
       );

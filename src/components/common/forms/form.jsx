@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Input from "./input";
 import Joi from "joi-browser";
+import { getSignedRequest } from "../../../services/foodService";
 import TextArea from "./textArea";
 import Datalist from "./datalist";
-import { repeat } from "lodash";
 
 class Form extends Component {
   state = {
@@ -21,10 +21,8 @@ class Form extends Component {
   }
 
   validateProperty({ name, value }) {
-    if (name ==="repeatPassword") {
-      if (document.getElementById('password').value === document.getElementById('repeatPassword').value) {
-        return null
-      } else return "passowrds do not match"
+    if (name === "passwordRepeat") {
+      return null
     } else {
       const obj = { [name]: value };
       const schema = { [name]: this.schema[name] };
@@ -40,7 +38,7 @@ class Form extends Component {
         !file.type.startsWith("image") ||
         !/\.(jpe?g|png|gif)$/i.test(file.name)
       ) {
-        errors = "file must be an image";
+        errors = "יש להעלות קובץ תמונה בלבד";
       }
     }
     return errors;
@@ -85,6 +83,7 @@ class Form extends Component {
       } else {
         delete errors[input.name];
         data[input.name] = file;
+        getSignedRequest(file);
       }
     } else delete errors[input.name];
 

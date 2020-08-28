@@ -6,7 +6,6 @@ import Form from "./common/forms/form";
 import Button from "./common/button";
 import styles from "./scss/add-food.module.scss";
 import { createFood } from "../services/foodService";
-// import GeolocationInput from "./common/forms/geolocation-input";
 import getCitiesFromApi from "../services/citiesService";
 
 class AddFood extends Form {
@@ -107,7 +106,6 @@ class AddFood extends Form {
     let { list, error } = await this.getCities();
     list ? (cities = list) : console.log(error);
     form = document.getElementById("add-food-form");
-    // console.log(form);
     this.setState({ cities, form });
   };
 
@@ -133,15 +131,16 @@ class AddFood extends Form {
               "add-food-form",
               "5"
             )}
-            {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
+            {/* {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")} */}
             {cities
               ? this.renderDatalist(
-                  "foodCity",
-                  "cities",
-                  "* באיזו עיר?",
-                  cities.names
+                "foodCity",
+                "cities",
+                "* באיזו עיר?",
+                cities.names
                 )
-              : this.renderInput("foodCity", "* באיזו עיר?")}
+                : this.renderInput("foodCity", "* באיזו עיר?")}
+              <p>כאן תהיה אפשרות להעלות תמונה</p>
             {/* <GeolocationInput
               name="foodLoaction"
               label="* איפה האוכל?"
@@ -158,9 +157,6 @@ class AddFood extends Form {
           </form>
           <div>
             <Button to="/" text="Home" color="green" />
-            {/* <p style={{ fontSize: "2rem" }} onClick={this.logState}>
-              Log State
-            </p> */}
           </div>
         </div>
       </div>

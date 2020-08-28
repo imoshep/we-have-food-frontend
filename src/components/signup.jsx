@@ -4,7 +4,7 @@ import Form from "./common/forms/form";
 import { signup, login, getCurrentUser } from "../services/userService";
 
 import { toast } from "react-toastify";
-import Joi from "joi-browser";
+import Joi, { errors } from "joi-browser";
 
 import styles from "./scss/signup.module.scss";
 
@@ -45,19 +45,11 @@ class Signup extends Form {
       }),
     passwordRepeat: Joi.string()
     .required()
-    .valid(Joi.ref('password'))
-    .options({
-      language: {
-        any: {
-          allowOnly: '!!Passwords do not match',
-        }
-      } 
+    .error(() => {
+      return {
+        message: "יש להקליד אותה סיסמא",
+      };
     }),
-      // .error(() => {
-      //   return {
-      //     message: "יש להקליד אותה סיסמא",
-      //   };
-      // }),
     phone: Joi.string()
       .regex(/^0[2-9]\d{7,8}$/)
       .allow('')
@@ -69,16 +61,19 @@ class Signup extends Form {
   };
 
   doSubmit = async () => {
-    const { name, email, password, phone } = this.state.data;
+    const { name, email, password, passwordRepeat, phone } = this.state.data;
+    if (password !== passwordRepeat) {
+      this.setState({errors: {passwordRepeat: "יש להקליד אותה הסיסמא"}})
+      return
+    }
     try {
-      // await http.post(`${apiUrl}/users`, { name, email, password, phone });
       await signup(name, email, password, phone);
       await login(email, password);
       toast("You were added to the system. Please log in.");
       window.location = "/";
-    } catch (ex) {
-      if (ex.response && ex.response.status === 400) {
-        this.setState({ errors: { password: ex.response.data } });
+    } catch (err) {
+      if (err.response && err.response.status === 400) {
+        this.setState({ errors: { password: err.response.data } });
       }
     }
   };
@@ -105,7 +100,6 @@ class Signup extends Form {
             {this.renderSubmitButton("בואו נתחיל", "button green")}
           </form>
         </div>
-        <h2 onClick={() => console.log(this.state)}>log state</h2>
       </div>
     );
   }
