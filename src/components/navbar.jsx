@@ -13,8 +13,13 @@ class Navbar extends Component {
   state = {
   };
 
-  toggleCollapseList() {
-    let collapseList = document.getElementById("collapse-list").style;
+  closeCollapseList = () => {
+    this.collapseList.style.maxHeight = null;
+
+  }
+
+  toggleCollapseList = () => {
+    let collapseList = this.collapseList.style;
     if (collapseList.maxHeight) {
       collapseList.maxHeight = null;
     } else {
@@ -44,7 +49,7 @@ class Navbar extends Component {
             <FontAwesomeIcon icon={faBars} />
           </li>
           <li className={styles.navlink}>
-            <NavLink to="/">
+            <NavLink to="/" onClick={this.closeCollapseList}>
               <FontAwesomeIcon icon={faHome} />
             </NavLink>
           </li>
@@ -52,19 +57,19 @@ class Navbar extends Component {
           {user?._id ? (
             <span className={styles.topLeft}>
               <li className={styles.navlink}>
-                <NavLink to="/user/me">
+                <NavLink to="/user/me" onClick={this.closeCollapseList}>
                   <FontAwesomeIcon icon="user-circle" />
                 </NavLink>
               </li>
               <li className={styles.navlink}>
-                <NavLink to="/user/logout">
+                <NavLink to="/user/logout" onClick={this.closeCollapseList}>
                   <FontAwesomeIcon icon="people-arrows" />
                 </NavLink>
               </li>
             </span>
           ) : (
             <li className={`${styles.navlink} ${styles.topLeft}`}>
-              <NavLink to="/user/login">
+              <NavLink to="/user/login" onClick={this.closeCollapseList}>
                 <FontAwesomeIcon icon={faUserPlus} />
               </NavLink>
             </li>
@@ -72,13 +77,13 @@ class Navbar extends Component {
         </ul>
         <ul className={styles.collapseList} id="collapse-list">
             <li className={styles.navlink}>
-              <NavLink to="/food/search" onClick={this.toggleCollapseList}>למצוא אוכל</NavLink>
+              <NavLink to="/food/search" onClick={this.closeCollapseList}>למצוא אוכל</NavLink>
             </li>
             <li className={styles.navlink}>
-              <NavLink to="/users/my-favorites" onClick={this.toggleCollapseList}>הצעות מעניינות</NavLink>
+              <NavLink to="/user/me" onClick={this.closeCollapseList}>הפרופיל שלי</NavLink>
             </li>
             <li className={styles.navlink}>
-              <NavLink to="/food/add" onClick={this.toggleCollapseList}>שתף אוכל</NavLink>
+              <NavLink to="/food/add" onClick={this.closeCollapseList}>שתף אוכל</NavLink>
             </li>
           </ul>
       </nav>

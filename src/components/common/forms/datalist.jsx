@@ -16,8 +16,10 @@ const Datalist = ({
         {label}
       </label>
       <br />
+      <input style={{display:'none'}}></input>
       <input
         {...rest}
+        autoComplete="off"
         type="text"
         className="form-control"
         list={listID}

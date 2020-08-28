@@ -1,14 +1,91 @@
 import React, { Component } from "react";
 import styles from "./scss/view-user.module.scss";
-import { getUserInfo, getCurrentUser } from "../services/userService";
-import { searchFoodByCreator } from "../services/foodService";
+import { getUserInfo, getCurrentUser, removeFavorites } from "../services/userService";
+import { searchFoodByCreator, searchFoodByFoodId } from "../services/foodService";
 import Swal from "sweetalert2";
 import Button from "./common/button";
+import FoodListing from "./food-listing";
+import { serverUrl } from "../config.json";
+import { toast } from "react-toastify";
+
 
 class ViewUser extends Component {
   state = {
-    user: { food: [] },
+    user: { 
+      data: {},
+      food: [],
+      favorites: []
+    },
+    favsToDelete: [],
+    showFavs: false,
   };
+
+  toggleShowFavs() {
+    let {showFavs} = this.state;
+    this.setState({showFavs: !showFavs})
+  }
+  
+  requestFavorites = async () => {
+    let { user } = this.state;
+    this.toggleShowFavs();
+
+    if (user.favorites[0]?._id) return;
+
+    let detailedFavorites = []
+    for (let foodId of user.favorites) {
+      detailedFavorites.push((await searchFoodByFoodId(foodId)).data[0])
+    }
+
+    detailedFavorites.forEach((listing) => {
+      listing.foodImage = serverUrl + listing.foodImage.slice(8);
+    })
+
+    user.favorites = detailedFavorites;
+
+    await Promise.all(
+      user.favorites.map(async (listing) => {
+        try {
+          listing.user = await getUserInfo(listing.user_id);
+          if (listing.user === "")
+            listing.user = {
+              _id: listing.user_id,
+              name: "לא נמצא משתמש",
+              phone: "",
+              email: "",
+            };
+        } catch (err) {
+          console.log(err);
+        }
+      })
+    );
+
+    this.setState({user});
+  }
+
+  registerFavorites = (foodId) => {
+    let {favsToDelete} = this.state;
+    favsToDelete.includes(foodId) 
+      ? favsToDelete.splice(favsToDelete.indexOf(foodId), 1)
+      : favsToDelete.push(foodId)
+    console.log(favsToDelete);
+    this.setState({favsToDelete}) 
+  }
+
+  deleteFavorites = async () => {
+    let {favsToDelete, user} = this.state;
+    let response = await removeFavorites(favsToDelete);
+    if (response) {
+      if (response.status >= 400) toast.error(response.data)
+      else if (typeof response.data === 'object')  {
+        toast.success("הפריטים הוסרו בהצלחה");
+        favsToDelete = [];
+        user.favorites = response.data;
+      }
+    } else {
+      toast.error('ארעה תקלה בשליחה')
+    }
+    this.setState({user, favsToDelete});
+  }
 
   getUserWithFood = async () => {
     let { user } = this.state;
@@ -54,6 +131,7 @@ class ViewUser extends Component {
       }
 
       user.food = foodData;
+      user.data = userInfo;
     } catch (err) {
       Swal.fire({ title: "שגיאה", text: err.message, icon: "error" });
     }
@@ -87,14 +165,29 @@ class ViewUser extends Component {
     );
   };
 
+  renderFavorites() {
+    let {favorites} = this.state.user;
+
+    return (
+      favorites.map((listing) => {
+        return (
+          <FoodListing 
+            key={listing._id}
+            listing={listing} 
+            registerFavorites={this.registerFavorites} 
+          />
+        )
+      })      
+    )
+  }
+
   componentDidMount = () => {
     this.getUserWithFood();
   };
 
   render() {
-    const { user } = this.state;
+    const { user, favsToDelete, showFavs } = this.state;
 
-    // if (!user) return null;  
     return (
       <div className={styles.viewUser}>
         <header className={styles.pageHeader}>
@@ -124,8 +217,27 @@ class ViewUser extends Component {
                 </td>
               </tr>
             )}
+            <tr>
+              <td id="favorites-td" colSpan='3'>
+                <span className="button green" onClick={this.requestFavorites}>לצפייה במועדפים שלך</span>
+              </td>
+            </tr>
+            <tr>
+              <td colSpan='3'>
+                <table>
+                  <tbody>
+                    {user.favorites.length > 0 && user.favorites[0]._id && showFavs &&
+                    this.renderFavorites()}
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+        {favsToDelete.length > 0 && <tr><td colSpan='4'>
+        <span onClick={this.deleteFavorites} className="button red">להסרה מרשימת המועדפים</span>
+        </td></tr>}
           </tbody>
         </table>
+        <h2 onClick={() => console.log(this.state)}>log state</h2>
       </div>
     );
   }

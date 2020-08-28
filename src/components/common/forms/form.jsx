@@ -3,6 +3,7 @@ import Input from "./input";
 import Joi from "joi-browser";
 import TextArea from "./textArea";
 import Datalist from "./datalist";
+import { repeat } from "lodash";
 
 class Form extends Component {
   state = {
@@ -20,10 +21,16 @@ class Form extends Component {
   }
 
   validateProperty({ name, value }) {
-    const obj = { [name]: value };
-    const schema = { [name]: this.schema[name] };
-    const { error } = Joi.validate(obj, schema);
-    return error ? error.details[0].message : null;
+    if (name ==="repeatPassword") {
+      if (document.getElementById('password').value === document.getElementById('repeatPassword').value) {
+        return null
+      } else return "passowrds do not match"
+    } else {
+      const obj = { [name]: value };
+      const schema = { [name]: this.schema[name] };
+      const { error } = Joi.validate(obj, schema);
+      return error ? error.details[0].message : null;
+    }
   }
 
   validateUpload(file, type) {
@@ -55,7 +62,9 @@ class Form extends Component {
   handleChange = ({ currentTarget: input }) => {
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);
-    if (errorMessage) errors[input.name] = errorMessage;
+    if (errorMessage) { 
+      errors[input.name] = errorMessage;
+    }
     else delete errors[input.name];
     const data = { ...this.state.data };
     if (input.list) this.wrdlimit(input);
@@ -152,9 +161,11 @@ class Form extends Component {
   }
 
   renderDatalist(inputName, listID, label, arr, ...rest) {
-    const { data, errors } = this.state;
+    let { data, errors } = this.state;
+
     return (
       <Datalist
+        onMouseDown={()=>{data[inputName] = ''; console.log('clicked');this.setState({data})}}
         onChange={this.handleChange}
         name={inputName}
         listID={listID}

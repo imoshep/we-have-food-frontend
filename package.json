@@ -2,6 +2,9 @@
   "name": "we-have-food",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "12.16.x"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
@@ -12,12 +15,10 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "joi-browser": "^13.4.0",
-    "jquery": "^3.5.1",
     "jwt-decode": "^2.2.0",
     "load-google-maps-api": "^2.0.2",
     "lodash": "^4.17.20",
     "node-sass": "^4.14.1",
-    "popper.js": "^1.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-responsive": "^8.1.0",

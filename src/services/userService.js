@@ -5,20 +5,6 @@ import jwtDecode from "jwt-decode";
 
 const tokenKey = "token";
 
-export async function addfoodToFavorites(foodId) {}
-
-export async function getUserInfo(ID) {
-  try {
-    const { data } = await http.get(`${apiUrl}/users?id=${ID}`);
-    return data;
-  } catch (err) {
-    return { message: "לא נמצא משתמש", error: err };
-  }
-}
-
-export function logout() {
-  localStorage.removeItem(tokenKey);
-}
 
 export function getCurrentUser() {
   try {
@@ -29,26 +15,58 @@ export function getCurrentUser() {
   }
 }
 
+export async function getUserInfo(userId) {
+  try {
+    const { data } = await http.get(`${apiUrl}/users?id=${userId}`);
+    return data;
+  } catch (err) {
+    return { message: "לא נמצא משתמש", error: err };
+  }
+}
+
 export async function login(email, password) {
   const { data } = await http.post(`${apiUrl}/auth`, { email, password });
   localStorage.setItem(tokenKey, data.token);
   return data.token;
 }
 
-export async function signup(name, email, password, phone) {
-  console.log("signup running");
-  try {
-    await http.post(`${apiUrl}/users`, { name, email, password, phone });
-  } catch (err) {
-    return err;
-  }
+
+export function logout() {
+  localStorage.removeItem(tokenKey);
 }
 
+export async function signup(name, email, password, phone) {
+  await http.post(`${apiUrl}/users`, { name, email, password, phone }).catch((err) => {
+    return err.response;
+  });
+}
+
+export function updateFavorites(array) {
+  return http.patch(`${apiUrl}/users/favorites`, array).catch((err) => {
+    return err.response;
+  });
+}
+
+export function getFavorites(userId) {
+  return http.get(`${apiUrl}/users/favorites?id=${userId}`).catch((err) => {
+    return err.response;
+  })
+}
+
+export function removeFavorites(array) {
+  console.log("running from userService");
+  return http.post(`${apiUrl}/users/favorites`, array).catch((err) => {
+    return err.response;
+  })
+}
+
+
 export default {
+  getCurrentUser,
   getUserInfo,
   login,
-  getCurrentUser,
   logout,
-  getJwt,
-  addfoodToFavorites,
+  signup,
+  updateFavorites,
+  removeFavorites
 };

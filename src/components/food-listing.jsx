@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from "sweetalert2";
+import MediaQuery from 'react-responsive'
 
 class FoodListing extends Component {
     state = { isSelected: false }
 
-    fireFavoritesClick = ({ currentTarget: icon }) => {
+    displayMore({ currentTarget: row }) {
+        let container = row.nextElementSibling.style;
+        container.display === "none"
+          ? (container.display = "table-row")
+          : (container.display = "none");
+    }
+
+    fireFavoritesClick = (event) => {
+        event.stopPropagation()
         let {isSelected} = this.state;
+        let {currentTarget: icon} =event;
         const foodId = icon.getAttribute("data-food-id");
         this.props.registerFavorites(foodId)
         isSelected = !isSelected;
@@ -56,9 +66,10 @@ class FoodListing extends Component {
     }
 
     render() { 
-        let {listing, displayMore, addToFavorites, isMD} = this.props;
-        return (<React.Fragment>
-            {isMD 
+        let {listing, addToFavorites, isMD} = this.props;
+        return (
+            <MediaQuery minDeviceWidth='768px'>
+            {(matches) => matches 
             ? <React.Fragment>
                 <tr>
                     <td>
@@ -76,7 +87,7 @@ class FoodListing extends Component {
                 </tr>
             </React.Fragment>
             : <React.Fragment>
-                <tr onClick={displayMore}>
+                <tr onClick={this.displayMore}>
                     <td>
                         {this.renderTitle(listing, addToFavorites)}  
                     </td>
@@ -95,7 +106,7 @@ class FoodListing extends Component {
                 </tr>
             </React.Fragment>
             }
-        </React.Fragment>);
+        </MediaQuery>);
     }
 }
  

@@ -1,14 +1,14 @@
 import React from "react";
+import {Link} from 'react-router-dom'
 import Form from "./common/forms/form";
 import Joi from "joi-browser";
 import styles from "./scss/find-food.module.scss";
 import getCitiesFromApi from "../services/citiesService";
-import { getUserInfo } from "../services/userService";
+import { getUserInfo, updateFavorites } from "../services/userService";
 import { searchFoodByCity } from "../services/foodService";
 import { serverUrl } from "../config.json";
 import FoodTable from "./find-food-table";
-import Button from "./common/button";
-import { indexOf } from "lodash";
+import { toast } from "react-toastify";
 
 class FindFood extends Form {
   state = {
@@ -29,7 +29,7 @@ class FindFood extends Form {
   };
 
 
-  registerFavorites = (foodId) => {
+  registerFavoritesFromList = (foodId) => {
     let {favorites} = this.state;
     favorites.includes(foodId) 
       ? favorites.splice(favorites.indexOf(foodId), 1)
@@ -37,15 +37,15 @@ class FindFood extends Form {
     this.setState({favorites}) 
   }
 
-  sendFavorites() {
-    // try send to server
-    // toast "success, to remove goto your profile"
-    // stay on this page
-    // catch => swal(error)
-
-    // food service function
-    // serverside favrites logic
-    // user/me favorites page
+  sendFavoritesToServer = async () => {
+    let {favorites} = this.state;
+    try {
+      let response = await updateFavorites(favorites)
+      if (response.status >= 400) toast.error(response.data);
+      else  toast.success(() => <p>האוכל שבחרת נוסף למועדפים. לצפיה ועריכה של המועדפים יש להיכנס ל<Link to='/user/me'>פרופיל המשתמש</Link></p>)
+    } catch(error) {
+      toast.error(error.message);
+    }
   }
 
   getCities = async () => {
@@ -66,7 +66,7 @@ class FindFood extends Form {
       console.warn(err);
     }
 
-    if (foodList.length > 0 ) {
+    if (typeof foodlist === 'object' && foodList.length > 0 ) {
       foodList.forEach((listing) => {
         listing.foodImage = serverUrl + listing.foodImage.slice(8);
       })
@@ -108,11 +108,16 @@ class FindFood extends Form {
         </header>
         <div className={styles.form}>
           <form
+            autoComplete="off"
             name="search-city"
             action=""
             method="GET"
             onSubmit={this.handleSubmit}
           >
+          <div style={{opacity: '0'}}>
+            {/* <input type="text" id="PreventChromeAutocomplete" 
+              name="PreventChromeAutocomplete" autoComplete="address-level4" /> */}
+          </div>  
             {cities.names 
               ? this.renderDatalist(
                 "foodCity",
@@ -123,20 +128,20 @@ class FindFood extends Form {
               : <h2> עמוד בטעינה...</h2>}
               {this.renderSubmitButton("חיפוש", `${styles.submit} button green`)} 
           </form>
-          {/* <p onClick={() => console.log(this.state)}>log State</p> */}
+          <p onClick={() => console.log(this.state)}>log State</p>
         </div>
         <div className={styles.foodList}>
           {foodList !== "none" && foodList.length > 0 && (
             <React.Fragment>
-            <FoodTable array={foodList} registerFavorites={this.registerFavorites}/>
-            {favorites.length > 0 && <span className='button green' onClick={this.sendFavorites}>הוספה למועדפים</span>}
+            <FoodTable array={foodList} registerFavorites={this.registerFavoritesFromList}/>
+            {favorites.length > 0 && <span className='button green' onClick={this.sendFavoritesToServer}>הוספה למועדפים</span>}
             </React.Fragment>
           )}
           {foodList === "none" && (
             <p>מצטערים, אין כרגע אוכל למסירה ב{data.foodCity}</p>
           )} 
         </div>
-      </div>
+        </div>
     );
   }
 }

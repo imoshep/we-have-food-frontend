@@ -44,23 +44,28 @@ class Signup extends Form {
         };
       }),
     passwordRepeat: Joi.string()
-      .valid(Joi.ref("password"))
-      .required()
-      .label("Confirm password")
-      .error(() => {
-        return {
-          message: "יש להקליד אותה סיסמא",
-        };
-      }),
+    .required()
+    .valid(Joi.ref('password'))
+    .options({
+      language: {
+        any: {
+          allowOnly: '!!Passwords do not match',
+        }
+      } 
+    }),
+      // .error(() => {
+      //   return {
+      //     message: "יש להקליד אותה סיסמא",
+      //   };
+      // }),
     phone: Joi.string()
-      .min(9)
-      .max(10)
       .regex(/^0[2-9]\d{7,8}$/)
+      .allow('')
       .error(() => {
-        return {
-          message: "יש להקליד ספרות בלבד",
-        };
-      }),
+          return {
+            message: "יש להקליד מספר טלפון תקני",
+          };
+        }),
   };
 
   doSubmit = async () => {
@@ -79,7 +84,7 @@ class Signup extends Form {
   };
 
   render() {
-    if (getCurrentUser()) return <Redirect to="/" />;
+    if (getCurrentUser()._id) return <Redirect to="/" />;
 
     return (
       <div className={styles.signup}>
@@ -96,10 +101,11 @@ class Signup extends Form {
             {this.renderInput("password", "סיסמא:", "password")}
             {this.renderInput("passwordRepeat", "סיסמא בשנית:", "password")}
             {this.renderInput("phone", "מס' טלפון:", "tel")}
-            {this.renderSubmitButton("בואו נתחיל", "button green")}
             <br />
+            {this.renderSubmitButton("בואו נתחיל", "button green")}
           </form>
         </div>
+        <h2 onClick={() => console.log(this.state)}>log state</h2>
       </div>
     );
   }

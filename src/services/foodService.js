@@ -45,6 +45,7 @@ export function searchFoodByCreator(userId) {
   });
 }
 
+
 export default {
   createFood,
   deleteFood,
