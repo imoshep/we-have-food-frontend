@@ -66,7 +66,7 @@ class FoodListing extends Component {
     }
 
     render() { 
-        let {listing, addToFavorites, isMD} = this.props;
+        let {listing, addToFavorites} = this.props;
         return (
             <MediaQuery minDeviceWidth='768px'>
             {(matches) => matches 

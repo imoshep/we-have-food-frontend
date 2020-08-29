@@ -4,7 +4,7 @@ import Form from "./common/forms/form";
 import { signup, login, getCurrentUser } from "../services/userService";
 
 import { toast } from "react-toastify";
-import Joi, { errors } from "joi-browser";
+import Joi  from "joi-browser";
 
 import styles from "./scss/signup.module.scss";
 
