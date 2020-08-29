@@ -131,7 +131,7 @@ class AddFood extends Form {
               "add-food-form",
               "5"
             )}
-            {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
+            {/* {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")} */}
             {cities
               ? this.renderDatalist(
                 "foodCity",
@@ -140,7 +140,7 @@ class AddFood extends Form {
                 cities.names
                 )
                 : this.renderInput("foodCity", "* באיזו עיר?")}
-              {/* <p>כאן תהיה אפשרות להעלות תמונה</p> */}
+              <p>כאן תהיה אפשרות להעלות תמונה</p>
             {/* <GeolocationInput
               name="foodLoaction"
               label="* איפה האוכל?"
