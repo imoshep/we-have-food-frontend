@@ -237,7 +237,6 @@ class ViewUser extends Component {
         </td></tr>}
           </tbody>
         </table>
-        <h2 onClick={() => console.log(this.state)}>log state</h2>
       </div>
     );
   }

@@ -150,9 +150,6 @@ class ViewFood extends Component {
           
         <Button to="/user/me" text="חזרה לפרופיל שלי" color="green" style={{width: this.state.buttonsWidth}}/>
 
-        {/* <p style={{ fontSize: "2rem" }} onClick={this.logState}>
-          Log State
-        </p> */}
       </div>
     );
   }

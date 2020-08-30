@@ -66,8 +66,6 @@ class App extends Component {
               <Route path='/' component={PageNotFound} />
             </Switch>
           </div>
-        {/* <h2 onClick={() => console.log(this.state)}>log state</h2> */}
-        {/* <h2 onClick={async () => console.log(await serService.getUserInfo(user._id))}>log user</h2> */}
         </main>
         <footer>
           <Footer />

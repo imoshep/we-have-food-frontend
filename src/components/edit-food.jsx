@@ -207,9 +207,6 @@ class EditFood extends Form {
         ) : (
           <h2> עמוד בטעינה...</h2>
         )}
-        {/* <p style={{ fontSize: "2rem" }} onClick={this.logState}>
-          Log State
-        </p> */}
       </div>
     );
   }

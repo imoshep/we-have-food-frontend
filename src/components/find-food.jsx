@@ -128,7 +128,6 @@ class FindFood extends Form {
               : <h2> עמוד בטעינה...</h2>}
               {this.renderSubmitButton("חיפוש", `${styles.submit} button green`)} 
           </form>
-          <p onClick={() => console.log(this.state)}>log State</p>
         </div>
         <div className={styles.foodList}>
           {foodList !== "none" && foodList.length > 0 && (

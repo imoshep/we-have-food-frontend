@@ -68,7 +68,6 @@ class ViewFood extends Component {
     return (
       <div className={styles.viewFood}>
         <header className={styles.pageHeader}>
-          <p onClick={() => console.log(this.state)}>log State</p>
           <h1 className={styles.headerText}>
             מצאו אוכל בסביבה <span onClick={this.showFood}>Show Food</span>
           </h1>
