@@ -4,7 +4,7 @@ import _ from "lodash";
 
 export function createFood(form) {
   const formData = new FormData(form);
-
+  for (let p of formData) console.log(p);
   return http.post(`${apiUrl}/food`, formData)
   .catch((err) => {
     console.log(err.response.data);
