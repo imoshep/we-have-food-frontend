@@ -83,7 +83,7 @@ class Form extends Component {
       } else {
         delete errors[input.name];
         data[input.name] = file;
-        getSignedRequest(file);
+        // getSignedRequest(file);
       }
     } else delete errors[input.name];
 
