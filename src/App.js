@@ -85,3 +85,5 @@ export default App;
   // "apiUrl": "https://young-everglades-57688.herokuapp.com/api",
   // "serverUrl": "https://young-everglades-57688.herokuapp.com/",
   
+  // "apiUrl": "ec2-18-156-192-107.eu-central-1.compute.amazonaws.com/api",
+  // "serverUrl": "ec2-18-156-192-107.eu-central-1.compute.amazonaws.com/",
