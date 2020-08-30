@@ -58,11 +58,11 @@ class App extends Component {
               <Route path="/user/login" exact component={Login} />
               <Route path="/user/signup" exact component={Signup} />
               <Route path="/user/logout" exact component={Logout} />
-              <Route path="/user/me" exact component={ViewUser} />
+              <ProtectedRoute path="/user/me" exact component={ViewUser} />
               <ProtectedRoute path="/food/edit" exact component={EditFood} />
               <ProtectedRoute path="/food/add" exact component={AddFood} />
-              <Route path="/food/search" exact component={FindFood} />
-              <Route path="/food" component={ViewFood} />
+              <ProtectedRoute path="/food/search" exact component={FindFood} />
+              <ProtectedRoute path="/food" component={ViewFood} />
               <Route path='/' component={PageNotFound} />
             </Switch>
           </div>
