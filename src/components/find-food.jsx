@@ -115,8 +115,6 @@ class FindFood extends Form {
             onSubmit={this.handleSubmit}
           >
           <div style={{opacity: '0'}}>
-            {/* <input type="text" id="PreventChromeAutocomplete" 
-              name="PreventChromeAutocomplete" autoComplete="address-level4" /> */}
           </div>  
             {cities.names 
               ? this.renderDatalist(

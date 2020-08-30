@@ -157,4 +157,3 @@ class ViewFood extends Component {
 
 export default ViewFood;
 
-   //     <div id="image-popup" className={`${styles.popup} hide`}></div>

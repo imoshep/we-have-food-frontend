@@ -45,6 +45,10 @@ class AddFood extends Form {
       .error(() => {
         return { message: "יש לבחור עיר" };
       }),
+    // foodLocation: Joi.object({
+    //   lat: Joi.number().min(-90).max(90),
+    //   lng: Joi.number().min(-180).max(180),
+    // }).required(),
     foodImage: Joi.any(),
   };
 
@@ -53,6 +57,24 @@ class AddFood extends Form {
     console.log(formElement);
     console.dir(this.state);
   };
+
+  // registerLocationError = (errorFromGeolocationComponent) => {
+  //   let { errors } = this.state;
+  //   errors.foodLocation = errorFromGeolocationComponent;
+  //   this.setState({ errors });
+  // };
+
+  // registerLocationLatLng = (latlng) => {
+  //   let { data } = this.state;
+  //   // console.log(typeof latlng.lat);
+  //   // console.log(latlng);
+  //   latlng = {
+  //     lat: parseFloat(latlng.lat).toFixed(7),
+  //     lng: parseFloat(latlng.lng).toFixed(7),
+  //   };
+  //   data.foodLocation = latlng;
+  //   this.setState({ data });
+  // };
 
   getCities = async () => {
     let cities;
@@ -109,7 +131,7 @@ class AddFood extends Form {
               "add-food-form",
               "5"
             )}
-            {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
+            {/* {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")} */}
             {cities
               ? this.renderDatalist(
                 "foodCity",
@@ -118,6 +140,14 @@ class AddFood extends Form {
                 cities.names
                 )
                 : this.renderInput("foodCity", "* באיזו עיר?")}
+              <p>כאן תהיה אפשרות להעלות תמונה</p>
+            {/* <GeolocationInput
+              name="foodLoaction"
+              label="* איפה האוכל?"
+              sendErrToParent={this.registerLocationError}
+              sendLocationToParent={this.registerLocationLatLng}
+              error={this.state.errors.foodLocation}
+            /> */}
             <div className={styles.formButtons}>
               {this.renderSubmitButton("שיתוף מזון", "submit button green")}
               <span onClick={this.handleClear} className="button red">

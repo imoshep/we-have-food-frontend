@@ -2,7 +2,6 @@ import React, { Component } from "react";
 
 import styles from "./scss/homepage.module.scss";
 import header from "../images/homepage-header.jpg";
-// import robinfood from "../images/robinfood-logo.png";
 
 import Button from "./common/button";
 import Recommendation from "./recommendation";
