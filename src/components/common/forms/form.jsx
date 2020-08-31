@@ -164,7 +164,6 @@ class Form extends Component {
 
     return (
       <Datalist
-        onMouseDown={()=>{data[inputName] = ''; console.log('clicked');this.setState({data})}}
         onChange={this.handleChange}
         name={inputName}
         listID={listID}
