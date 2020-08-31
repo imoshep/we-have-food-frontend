@@ -1,0 +1,1 @@
+/api/* https://young-everglades-57688.herokuapp.com/api:splat 200
