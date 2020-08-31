@@ -9,7 +9,6 @@ const tokenKey = "token";
 export function getCurrentUser() {
   try {
     const jwt = getJwt();
-    console.log(jwtDecode(jwt));
     return jwtDecode(jwt);
   } catch (error) {
     return error;

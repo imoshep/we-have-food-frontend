@@ -1,5 +1,5 @@
 {
-  "apiUrl": "/api",
+  "apiUrl": "https://young-everglades-57688.herokuapp.com/api",
   "serverUrl": "https://young-everglades-57688.herokuapp.com/",
   "googleMapsApiKey": "AIzaSyCLfJp2UVWTN562gmIBxMsgNpNG2hP5DHg"
 }
