@@ -1,5 +1,5 @@
 {
-  "serverUrl": "https://localhost:5000/",
-  "apiUrl": "https://localhost:5000/api",
+  "serverUrl": "https://109.65.12.74:5000/",
+  "apiUrl": "https://109.65.12.74:5000/api",
   "googleMapsApiKey": "AIzaSyCLfJp2UVWTN562gmIBxMsgNpNG2hP5DHg"
 }
