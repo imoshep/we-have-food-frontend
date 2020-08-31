@@ -1,2 +1,3 @@
-/api/* https://young-everglades-57688.herokuapp.com/api:splat 200
-/user/me /bagavin
+/api/*      https://young-everglades-57688.herokuapp.com/api:splat 200
+/user/me    /bagavin        200
+/*          /index.html     200

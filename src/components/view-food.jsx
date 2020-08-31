@@ -51,12 +51,13 @@ class ViewFood extends Component {
   getfoodData = async () => {
     let { foodData, foodId } = this.state;
     try {
+      console.log(foodId);
       let response = await searchFoodByFoodId(foodId);
       foodData = response.data[0];
     } catch (err) {
       console.log(err.message);
     }
-    foodData.foodImage = serverUrl + foodData.foodImage.slice(8);
+    foodData.foodImage = serverUrl + foodData?.foodImage?.slice(8);
     this.setState({ foodData });
   };
 
