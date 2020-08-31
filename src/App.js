@@ -63,7 +63,7 @@ class App extends Component {
               <ProtectedRoute path="/food/add" exact component={AddFood} />
               <ProtectedRoute path="/food/search" exact component={FindFood} />
               <ProtectedRoute path="/food" component={ViewFood} />
-              <Route path='/' component={PageNotFound} />
+              <Route path='*' component={PageNotFound} />
             </Switch>
           </div>
         </main>
