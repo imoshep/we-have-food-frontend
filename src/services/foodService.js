@@ -16,6 +16,7 @@ export function getSignedRequest(file) {
   const rndName = _.padStart(_.toString(_.random(99999999)), 8, "0");
   const parts = file.type.split("/");
   const fileName = `IMAGE-${rndName}.${parts[1]}`;
+  console.log('getSignedRequest');
 
   http.get(`${apiUrl}/sign-s3?file-name=${encodeURIComponent(fileName)}&file-type=${file.type}`)
   .then((res) => {
@@ -27,6 +28,7 @@ export function getSignedRequest(file) {
 }
 
 function uploadFileToS3(file, signedRequest, url) {
+  console.log('uploadFileToS3');
   http.put(signedRequest, file)
   .then(console.log('succes! checkout: ', url))
   .catch((err) => console.log(err))
