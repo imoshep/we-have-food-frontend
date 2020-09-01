@@ -70,7 +70,7 @@ class Form extends Component {
     this.setState({ data, errors });
   };
 
-  handleUpload = ({ currentTarget: input }) => {
+  handleUpload = async ({ currentTarget: input }) => {
     let file = input.files[0];
     const errors = { ...this.state.errors };
     const data = { ...this.state.data };
@@ -82,8 +82,8 @@ class Form extends Component {
         data[input.name] = null;
       } else {
         delete errors[input.name];
-        data[input.name] = file;
-        getSignedRequest(file);
+        data[input.name].file = file;
+        data[input.name].imageS3Url = await getSignedRequest(file);
       }
     } else delete errors[input.name];
 

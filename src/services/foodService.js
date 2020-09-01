@@ -21,6 +21,7 @@ export function getSignedRequest(file) {
   .then((res) => {
     console.log(res.data);
     uploadFileToS3(file, res.data.signedRequest, res.data.url)
+    return res.data.url;
   })
   .catch((err) => console.log(err))
 }
