@@ -1,14 +1,14 @@
 import React from "react";
 import {Link} from 'react-router-dom'
-import Form from "./common/forms/form";
 import Joi from "joi-browser";
+import { toast } from "react-toastify";
 import styles from "./scss/find-food.module.scss";
+import Form from "./common/forms/form";
 import getCitiesFromApi from "../services/citiesService";
 import { getUserInfo, updateFavorites } from "../services/userService";
 import { searchFoodByCity } from "../services/foodService";
-import { serverUrl } from "../config.json";
 import FoodTable from "./find-food-table";
-import { toast } from "react-toastify";
+import LoadingMessage from "./common/loading";
 
 class FindFood extends Form {
   state = {
@@ -66,13 +66,6 @@ class FindFood extends Form {
       toast.error(err);
     }
 
-    if (typeof foodlist === 'object' && foodList.length > 0 ) {
-      foodList.forEach((listing) => {
-        listing.foodImage = serverUrl + listing.foodImage.slice(8);
-      })
-    }
-    
-
     if (typeof foodList === "object") {
       await Promise.all(
         foodList.map(async (listing) => {
@@ -123,7 +116,7 @@ class FindFood extends Form {
                 "חפשו לפי עיר",
                 cities.names
               )
-              : <h2> עמוד בטעינה...</h2>}
+              : <LoadingMessage />}
               {this.renderSubmitButton("חיפוש", `${styles.submit} button green`)} 
           </form>
         </div>

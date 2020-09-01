@@ -72,9 +72,14 @@ class AddFood extends Form {
   };
 
   doSubmit = async () => {
+    const {data} = this.state;
+    let imageFilename;
+    data.foodImage.imageS3Url 
+      ? imageFilename = data.foodImage.imageS3Url 
+      : imageFilename = "";
     const formElement = document.forms.namedItem("add-food-form");
 
-    await createFood(formElement);
+    await createFood(formElement, imageFilename);
     toast.success("תודה על השיתוף!");
     this.props.history.replace("/");
   };

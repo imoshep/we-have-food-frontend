@@ -4,9 +4,10 @@ import {
   searchFoodByFoodId,
   deleteFood,
 } from "../services/foodService.js";
-import { serverUrl } from "../config.json";
 import Swal from "sweetalert2";
 import Button from "./common/button";
+import { toast } from "react-toastify";
+import LoadingMessage from "./common/loading";
 
 class ViewFood extends Component {
   state = {
@@ -51,13 +52,12 @@ class ViewFood extends Component {
   getfoodData = async () => {
     let { foodData, foodId } = this.state;
     try {
-      console.log(foodId);
       let response = await searchFoodByFoodId(foodId);
       foodData = response.data[0];
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message);
+      foodData = err.message;
     }
-    foodData.foodImage = serverUrl + foodData?.foodImage?.slice(8);
     this.setState({ foodData });
   };
 
@@ -123,6 +123,8 @@ class ViewFood extends Component {
       </div>
     );
   };
+
+  
   
   componentDidMount = () => {
     this.getfoodData();
@@ -139,16 +141,17 @@ class ViewFood extends Component {
   }
 
   render() {
+    let show;
+    if (this.state.foodData?._id) show = this.renderFoodDataTable();
+    else if (Object.keys(this.state.foodData).length === 0) show = <LoadingMessage />;
+    else show = this.renderNoFoodFound();
+
     return (
       <div className={styles.viewFood}>
         <header className={styles.pageHeader}>
           <h1 className={styles.headerText}>פרטי מזון</h1>
         </header>
-
-        {this.state.foodData?._id
-          ? this.renderFoodDataTable()
-          : this.renderNoFoodFound()}
-          
+        {show}
         <Button to="/user/me" text="חזרה לפרופיל שלי" color="green" style={{width: this.state.buttonsWidth}}/>
 
       </div>

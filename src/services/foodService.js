@@ -2,9 +2,10 @@ import http from "./httpService";
 import { apiUrl } from "../config.json";
 import _ from "lodash";
 
-export function createFood(form) {
+export function createFood(form, imageFilename) {
   const formData = new FormData(form);
-  for (let p of formData) console.log(p);
+  formData.set('foodImage', imageFilename)
+  // for (let p of formData) console.log(p);
   return http.post(`${apiUrl}/food`, formData)
   .catch((err) => {
     console.log(err.response.data);
@@ -12,19 +13,21 @@ export function createFood(form) {
   });
 }
 
-export function getSignedRequest(file) {
+export async function getSignedRequest(file) {
   const rndName = _.padStart(_.toString(_.random(99999999)), 8, "0");
   const parts = file.type.split("/");
   const fileName = `IMAGE-${rndName}.${parts[1]}`;
-  console.log('getSignedRequest');
+  let S3URL;
 
-  http.get(`${apiUrl}/sign-s3?file-name=${encodeURIComponent(fileName)}&file-type=${file.type}`)
+  await http.get(`${apiUrl}/sign-s3?file-name=${encodeURIComponent(fileName)}&file-type=${file.type}`)
   .then((res) => {
-    console.log(res.data);
+    S3URL = res.data.url
     uploadFileToS3(file, res.data.signedRequest, res.data.url)
-    return res.data.url;
   })
   .catch((err) => console.log(err))
+
+  return S3URL;
+
 }
 
 function uploadFileToS3(file, signedRequest, url) {

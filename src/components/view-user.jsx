@@ -155,7 +155,7 @@ class ViewUser extends Component {
                   <Button
                     to={`/food/${food._id}`}
                     text={food.foodTitle}
-                    color="green"
+                    color="mustard"
                   />
                 </td>
               </tr>

@@ -176,7 +176,7 @@ class Form extends Component {
     );
   }
 
-  renderUpload(inputName, label, accept) {
+  renderUpload(inputName, label, fileType) {
     const { errors } = this.state;
     return (
       <Input
@@ -184,7 +184,7 @@ class Form extends Component {
         onChange={this.handleUpload}
         name={inputName}
         label={label}
-        accept={accept}
+        accept={fileType}
         error={errors[inputName]}
         style={this.inputStyle}
       />
