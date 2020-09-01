@@ -26,8 +26,8 @@ export function getSignedRequest(file) {
 }
 
 function uploadFileToS3(file, signedRequest, url) {
-  http.put(signedRequest)
-  .then()
+  http.put(signedRequest, file)
+  .then(console.log('succes! checkout: ', url))
   .catch((err) => console.log(err))
 }
 

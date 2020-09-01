@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Input from "./input";
 import Joi from "joi-browser";
-// import { getSignedRequest } from "../../../services/foodService";
+import { getSignedRequest } from "../../../services/foodService";
 import TextArea from "./textArea";
 import Datalist from "./datalist";
 
@@ -83,7 +83,7 @@ class Form extends Component {
       } else {
         delete errors[input.name];
         data[input.name] = file;
-        // getSignedRequest(file);
+        getSignedRequest(file);
       }
     } else delete errors[input.name];
 
