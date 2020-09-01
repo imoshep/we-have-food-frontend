@@ -10,7 +10,7 @@ import getCitiesFromApi from "../services/citiesService";
 
 class AddFood extends Form {
   state = {
-    data: { foodTitle: "", foodDesc: "", foodCity: "", foodImage: ''},
+    data: { foodTitle: "", foodDesc: "", foodCity: "", foodImage: {}},
     errors: {},
     cities: {},
     form: null,
