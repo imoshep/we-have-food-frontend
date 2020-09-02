@@ -11,6 +11,8 @@ import {
   faPeopleArrows,
   faStar,
   faCaretDown,
+  faSpinner,
+  faTrashAlt
 } from "@fortawesome/free-solid-svg-icons";
 import { faStar as farStar } from "@fortawesome/free-regular-svg-icons";
 
@@ -38,7 +40,9 @@ class App extends Component {
       faPeopleArrows,
       faStar,
       faCaretDown,
-      farStar
+      farStar,
+      faSpinner,
+      faTrashAlt
     );
     const user = userService.getCurrentUser();
     this.setState({ user });

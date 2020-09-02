@@ -1,12 +1,12 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import styles from "./scss/view-user.module.scss";
 import { getUserInfo, getCurrentUser, removeFavorites } from "../services/userService";
 import { searchFoodByCreator, searchFoodByFoodId } from "../services/foodService";
 import Swal from "sweetalert2";
 import Button from "./common/button";
 import FoodListing from "./food-listing";
-import { serverUrl } from "../config.json";
-import { toast } from "react-toastify";
 
 
 class ViewUser extends Component {
@@ -29,17 +29,12 @@ class ViewUser extends Component {
     let { user } = this.state;
     this.toggleShowFavs();
 
-    if (user.favorites[0]?._id) return;
+    if (user.favorites[0]?._id) return; 
 
     let detailedFavorites = []
     for (let foodId of user.favorites) {
       detailedFavorites.push((await searchFoodByFoodId(foodId)).data[0])
     }
-
-    detailedFavorites.forEach((listing) => {
-      listing.foodImage = serverUrl + listing.foodImage.slice(8);
-    })
-
     user.favorites = detailedFavorites;
 
     await Promise.all(
@@ -144,7 +139,7 @@ class ViewUser extends Component {
     return (
       <React.Fragment>
         <tr>
-          <td colSpan="3">האוכל שפרסמת:</td>
+          <td colSpan="3"><h2>האוכל שפרסמת:</h2></td>
         </tr>
 
         {user.food.length &&
@@ -226,8 +221,11 @@ class ViewUser extends Component {
               <td colSpan='3'>
                 <table>
                   <tbody>
-                    {user.favorites.length > 0 && user.favorites[0]._id && showFavs &&
-                    this.renderFavorites()}
+                    { showFavs && (
+                    user.favorites[0]?._id
+                      ? this.renderFavorites()
+                      : <tr><td>אין לך אוכל ברשימת המועדפים.&nbsp; 
+                        <Link to="/food">חפש אוכל</Link> </td></tr>)}
                   </tbody>
                 </table>
               </td>

@@ -31,9 +31,8 @@ export async function getSignedRequest(file) {
 }
 
 function uploadFileToS3(file, signedRequest, url) {
-  console.log('uploadFileToS3');
   http.put(signedRequest, file)
-  .then(console.log('succes! checkout: ', url))
+  .then()
   .catch((err) => console.log(err))
 }
 
@@ -41,10 +40,12 @@ export function deleteFood(id) {
   return http.delete(`${apiUrl}/food/${id}`);
 }
 
-export function updateFood(id, form) {
+export function updateFood(id, form, imageFilename) {
   const formData = new FormData(form);
+  formData.set('foodImage', imageFilename)
 
-  return http.put(`${apiUrl}/food/${id}`, formData).catch((err) => {
+  return http.put(`${apiUrl}/food/${id}`, formData)
+  .catch((err) => {
     return err.response.data;
   });
 }

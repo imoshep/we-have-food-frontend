@@ -77,13 +77,21 @@ class Form extends Component {
 
     if (file) {
       const errorMessage = this.validateUpload(file, "image");
+      let submit = document.querySelector('button')
       if (errorMessage) {
         errors[input.name] = errorMessage;
         data[input.name] = null;
       } else {
+        this.setState({isLoading: true})
+        submit.setAttribute("disabled", "")
         delete errors[input.name];
-        data[input.name].file = file;
-        data[input.name].imageS3Url = await getSignedRequest(file);
+        let imageUrl = await getSignedRequest(file);
+        setTimeout(() => {
+          data[input.name] = imageUrl;
+          this.setState({data})  
+        }, 500);
+        this.setState({isLoading: false})
+        submit.removeAttribute("disabled")
       }
     } else delete errors[input.name];
 
@@ -155,6 +163,7 @@ class Form extends Component {
         value={data[inputName]}
         error={errors[inputName]}
         style={this.inputStyle}
+        {...rest}
       />
     );
   }
@@ -172,6 +181,7 @@ class Form extends Component {
         value={data[inputName]}
         error={errors[inputName]}
         style={this.inputStyle}
+        {...rest}
       />
     );
   }
@@ -191,12 +201,13 @@ class Form extends Component {
     );
   }
 
-  renderSubmitButton(label, className) {
+  renderSubmitButton(label, className, ...rest) {
     return (
       <button
-        disabled={this.validateForm()}
-        type="submit"
-        className={className}
+      disabled={this.validateForm()}
+      type="submit"
+      className={className}
+      {...rest}
       >
         {label}
       </button>

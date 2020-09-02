@@ -28,3 +28,20 @@
     margin: 0 auto;
   }
 }
+
+.imgPreview {
+  position: relative;
+  & img {
+    max-width: 80%;
+    position: relative;
+    // left: -20%;
+    border-radius: 13px;
+    border: 3px inset grey;
+  }
+  & svg {
+    margin: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
