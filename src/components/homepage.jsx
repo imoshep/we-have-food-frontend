@@ -8,13 +8,21 @@ import Recommendation from "./recommendation";
 
 class Homepage extends Component {
   state = {
+    init: true,
     recommendations: [
       {
         title: "רובין פוד",
         desc: "מסעדה וקפה בשוק של חיפה שמבוססת כולה על מזון מוצל",
         image:
-          "https://images.unsplash.com/photo-1518675219903-c682c4b16b1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80",
+          "https://scontent.fsdv2-1.fna.fbcdn.net/v/t1.0-9/13427920_521503214700863_6669784899119421948_n.png?_nc_cat=107&_nc_sid=09cbfe&_nc_ohc=pgJNH974rmYAX8ZdsAO&_nc_ht=scontent.fsdv2-1.fna&oh=15603d08b3a252867e7970dd6f2464d5&oe=5F76C41A",
         link: "https://www.facebook.com/robinfood.il/",
+      },
+      {
+        title: "לקט ישראל",
+        desc: "הארגון הארצי הותיק המציל עודפי מזון איכותיים ומעבירים אותם לאלו הזקוקים להם",
+        image:
+          "https://www.leket.org/wp-content/uploads/2020/06/cropped-LOGOFORSITE.png",
+        link: "https://www.leket.org/",
       },
     ],
   };
@@ -23,7 +31,7 @@ class Homepage extends Component {
     backgroundImage: `url(${header})`,
     backgroundSize: "cover",
   };
-
+  
   render() {
     const { recommendations } = this.state;
     return (

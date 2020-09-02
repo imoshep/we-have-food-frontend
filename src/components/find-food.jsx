@@ -2,6 +2,8 @@ import React from "react";
 import {Link} from 'react-router-dom'
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+
 import styles from "./scss/find-food.module.scss";
 import Form from "./common/forms/form";
 import getCitiesFromApi from "../services/citiesService";
@@ -90,6 +92,14 @@ class FindFood extends Form {
 
   componentDidMount = () => {
     this.getCities();
+    if (!localStorage.getItem("popup")) {
+      Swal.fire({
+        icon: 'info',
+        title: "ברוכים הבאים!",
+        text: "תוכלו למצוא אוכל בירושלים, חיפה ותל אביב"
+      });
+      localStorage.setItem("popup", 'viewed');
+    }
   };
 
   render() {

@@ -153,7 +153,6 @@ class ViewFood extends Component {
         </header>
         {show}
         <Button to="/user/me" text="חזרה לפרופיל שלי" color="green" style={{width: this.state.buttonsWidth}}/>
-
       </div>
     );
   }

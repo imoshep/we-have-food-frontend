@@ -16,16 +16,16 @@
 }
 
 .formButtons {
-  & > div {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
+  display: inline-block;
+  margin: 1rem 4rem 0.5rem 4rem;
 
-  & > span {
-    margin: 0 auto;
+  & > button {
+    float: right;
+    margin-right: auto;
+    margin-left: 4px;
+  }
+    & > span {
+    margin-left: auto;
   }
 }
 
@@ -38,10 +38,11 @@
     border-radius: 13px;
     border: 3px inset grey;
   }
-  & svg {
-    margin: 1rem;
+
+  & .icons {
+    margin: 1rem .5rem;
     position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
   }
 }

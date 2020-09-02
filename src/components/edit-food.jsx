@@ -22,7 +22,8 @@ class EditFood extends Form {
     errors: {},
     cities: {},
     foodId: null,
-    isLoading: false
+    isLoading: false,
+    buttonsWidth: "auto"
   };
 
   schema = {
@@ -166,6 +167,17 @@ class EditFood extends Form {
     }
   };
 
+  componentDidUpdate() {
+    let {buttonsWidth} = this.state;
+    if (!this.buttonsDiv) this.buttonsDiv = document.getElementsByClassName(styles.formButtons).item(0);
+    
+    if (buttonsWidth === 'auto' && this.buttonsDiv) {
+      buttonsWidth = this.buttonsDiv.clientWidth;
+      this.setState({buttonsWidth});
+    }
+  }
+
+
   render() {
     const { data, cities, foodId, isLoading } = this.state;
     return (
@@ -191,11 +203,13 @@ class EditFood extends Form {
               )}
               {this.renderUpload("foodImage", "רוצה לצרף תמונה?", "image/*")}
               {(data.foodImage !== '') && <div className={`form-group ${styles.imgPreview}`} >
-                {React.createElement('img', {src: data.foodImage})}
-                {/* <img src={data.foodImage} alt="Food item"/> */}
-                <FontAwesomeIcon icon="trash-alt" onClick={this.propmtImageDel}/>
+              {React.createElement('img', {src: data.foodImage})}
+              <span className={`${styles.icons} fa-layers fa-fw`}>
+                <FontAwesomeIcon icon="circle" size="2x" color="white"   />
+                <FontAwesomeIcon icon="trash-alt" onClick={this.propmtImageDel} transform="left-6"   />
+              </span>
               </div>}
-                  {cities.names?.length
+              {cities.names?.length
                 ? this.renderDatalist(
                     "foodCity",
                     "cities",
@@ -204,7 +218,6 @@ class EditFood extends Form {
                   )
                 : this.renderInput("foodCity", "* באיזו עיר?")}
               <div className={styles.formButtons}>
-                <div>
                   {isLoading
                    ? this.renderSubmitButton(<FontAwesomeIcon icon="spinner" spin/>, "submit button green")
                    : this.renderSubmitButton("עדכון", "submit button green")}
@@ -212,17 +225,17 @@ class EditFood extends Form {
                     ניקוי
                   </span>
                 </div>
-                <span
-                  style={{ width: "6rem" }}
+            </form>
+
+            <div>
+            <span
+                  style={{ width: this.state.buttonsWidth }}
                   onClick={this.promptDelete}
                   className="button red"
                 >
                   מחיקה
                 </span>
-              </div>
-            </form>
-
-            <div>
+                <br/>
               <Button to={`/food/${foodId}`} text="ביטול" color="mustard" />
             </div>
           </div>
