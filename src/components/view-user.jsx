@@ -7,6 +7,7 @@ import { searchFoodByCreator, searchFoodByFoodId } from "../services/foodService
 import Swal from "sweetalert2";
 import Button from "./common/button";
 import FoodListing from "./food-listing";
+import LoadingMessage from "./common/loading";
 
 
 class ViewUser extends Component {
@@ -62,7 +63,6 @@ class ViewUser extends Component {
     favsToDelete.includes(foodId) 
       ? favsToDelete.splice(favsToDelete.indexOf(foodId), 1)
       : favsToDelete.push(foodId)
-    console.log(favsToDelete);
     this.setState({favsToDelete}) 
   }
 
@@ -183,6 +183,12 @@ class ViewUser extends Component {
   render() {
     const { user, favsToDelete, showFavs } = this.state;
 
+    let show;
+    if (user.favorites[0]?._id) show = this.renderFavorites()
+    else if (user.favorites.length > 0) show = <LoadingMessage />
+    else show = <tr><td>אין לך אוכל ברשימת המועדפים.&nbsp; 
+    <Link to="/food/search">חפש אוכל</Link> </td></tr>
+
     return (
       <div className={styles.viewUser}>
         <header className={styles.pageHeader}>
@@ -221,11 +227,7 @@ class ViewUser extends Component {
               <td colSpan='3'>
                 <table>
                   <tbody>
-                    { showFavs && (
-                    user.favorites[0]?._id
-                      ? this.renderFavorites()
-                      : <tr><td>אין לך אוכל ברשימת המועדפים.&nbsp; 
-                        <Link to="/food">חפש אוכל</Link> </td></tr>)}
+                    { showFavs && show}
                   </tbody>
                 </table>
               </td>
