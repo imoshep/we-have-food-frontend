@@ -28,7 +28,7 @@ const FoodTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          <tr><td>הוספה למועדפים</td></tr>
+          <tr><td colSpan="2">הוספה למועדפים</td></tr>
           {props.array.map((listing, idx, arr) => {
             return (
               <FoodListing 
