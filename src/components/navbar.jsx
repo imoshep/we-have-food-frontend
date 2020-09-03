@@ -25,6 +25,8 @@ class Navbar extends Component {
     } else {
       collapseList.maxHeight = "15rem";
     }
+    console.log(collapseList.maxHeight);
+    console.log(this.collapseList);
   };
 
 

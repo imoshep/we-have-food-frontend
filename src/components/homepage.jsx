@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import styles from "./scss/homepage.module.scss";
 import header from "../images/homepage-header.jpg";
@@ -9,6 +10,7 @@ import Recommendation from "./recommendation";
 class Homepage extends Component {
   state = {
     init: true,
+    showContent:  false,
     recommendations: [
       {
         title: "רובין פוד",
@@ -31,9 +33,13 @@ class Homepage extends Component {
     backgroundImage: `url(${header})`,
     backgroundSize: "cover",
   };
+
+  toggleShowMore = () => {
+    this.setState({showContent: !this.state.showContent})
+  }
   
   render() {
-    const { recommendations } = this.state;
+    const { recommendations, showContent } = this.state;
     return (
       <div className={styles.container}>
         <header
@@ -48,9 +54,14 @@ class Homepage extends Component {
           </h1>
         </header>
         <section className={styles.content}>
-          <div className={styles.content__about}>
+          <div className={`${styles.content__about} ${showContent ? "showAboutContent" : ""}`} onClick={this.toggleShowMore}>
             <p>
             שלום! הגעתם ל<strong>יש לנו אוכל!</strong> שמחים לראות אתכם כאן.
+            <br/>
+            {showContent 
+              ? <FontAwesomeIcon icon="caret-up" size='lg'/>
+              : <FontAwesomeIcon icon="caret-down" size='lg'/>}
+            <br/>
             <br/>
             החזון שלנו הוא שכל מזון תקין ובריא יאכל ולא ילך לפח.
             אנו מקווים להצליח לשדך באופן ישיר בין אנשים, מסעדות וגופים אשר מייצרים אוכל שלא נאכל במלואו לבין אנשים שישמחו לקבל את האוכל הזה ואף זקוקים לו.

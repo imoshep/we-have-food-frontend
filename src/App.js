@@ -11,6 +11,7 @@ import {
   faPeopleArrows,
   faStar,
   faCaretDown,
+  faCaretUp,
   faSpinner,
   faTrashAlt,
   faCircle
@@ -41,6 +42,7 @@ class App extends Component {
       faPeopleArrows,
       faStar,
       faCaretDown,
+      faCaretUp,
       farStar,
       faSpinner,
       faTrashAlt,

@@ -29,13 +29,28 @@
   padding: 0 0.5rem;
 
   &__about {
+    position: relative;
     border-radius: 10px;
     padding: 1rem;
     margin: 1rem 0rem;
     background-color: $beige-light;
+    text-align: center;
+    max-height: 6rem;
+    overflow: hidden;
+    transition: all 0.3s ease-out;
   }
 
+  :global .showAboutContent {
+    max-height: 38rem;
+  }
+  
   &__addFood {
     margin: 5rem auto;
+  }
+
+  & svg {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
   }
 }
