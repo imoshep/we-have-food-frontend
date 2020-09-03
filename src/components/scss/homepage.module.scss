@@ -14,8 +14,12 @@
   display: flex;
   justify-content: center;
   padding-block-start: 2rem;
-  background-image: url("http://imoshep-s3-bucket.s3.amazonaws.com/homepage-header.jpg");
+  background-image: url("https://imoshep-s3-bucket.s3.eu-central-1.amazonaws.com/IMAGE-47766105.jpeg");
   background-size: cover;
+  @include respond(sm) {
+    min-height: 50vh;
+    border-block-end: 2px solid $black;
+  }
 }
 
 .headerText {

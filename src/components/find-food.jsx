@@ -106,9 +106,7 @@ class FindFood extends Form {
     const { cities, foodList, data, favorites } = this.state;
     return (
       <div className={styles.viewFood}>
-        <header className={styles.pageHeader}>
-          <h1 className={styles.headerText}>מצאו אוכל בסביבה</h1>
-        </header>
+        <h1 className={styles.headerText}>מצאו אוכל בסביבה</h1>
         <div className={styles.form}>
           <form
             autoComplete="off"

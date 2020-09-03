@@ -1,4 +1,5 @@
 @import "../../services/scss/color-palette.scss";
+@import "../../services/scss/media-queries.scss";
 
 .viewFood {
   min-height: 100vh;
@@ -7,14 +8,9 @@
   align-items: center;
 }
 
-.pageHeader {
-  min-height: 23vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-}
 
 .headerText {
+  margin-top: 10rem;
   margin-bottom: 1rem;
 }
 

@@ -57,8 +57,10 @@ class App extends Component {
 
     return (
       <div className="app-container">
+        <header>
         <ToastContainer pauseOnFocusLoss={false} rtl />
         <Navbar user={user} />
+        </header>
         <main>
           <div id="content">
             <Switch>

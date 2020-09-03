@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 
 import styles from "./scss/homepage.module.scss";
-import header from "../images/homepage-header.jpg";
-
 import Button from "./common/button";
 import Recommendation from "./recommendation";
 
@@ -29,11 +28,6 @@ class Homepage extends Component {
     ],
   };
 
-  headerStyle = {
-    backgroundImage: `url(${header})`,
-    backgroundSize: "cover",
-  };
-
   toggleShowMore = () => {
     this.setState({showContent: !this.state.showContent})
   }
@@ -42,17 +36,15 @@ class Homepage extends Component {
     const { recommendations, showContent } = this.state;
     return (
       <div className={styles.container}>
-        <header
+        <div
           className={styles.pageHeader}
-          id="header"
-          // style={this.headerStyle}
         >
           <h1 className={styles.headerText}>
             <span dir="ltr">We Have Food!</span>
             <br />
             יש לנו אוכל!
           </h1>
-        </header>
+        </div>
         <section className={styles.content}>
           <div className={`${styles.content__about} ${showContent ? "showAboutContent" : ""}`} onClick={this.toggleShowMore}>
             <p>
@@ -60,8 +52,8 @@ class Homepage extends Component {
             <br /> שמחים לראות אתכם כאן.
             <br/>
             {showContent 
-              ? <FontAwesomeIcon icon="caret-up" size='lg'/>
-              : <FontAwesomeIcon icon="caret-down" size='lg'/>}
+              ? <FontAwesomeIcon icon={faCaretUp} size='lg'/>
+              : <FontAwesomeIcon icon={faCaretDown} size='lg'/>}
             <br/>
             <br/>
             החזון שלנו הוא שכל מזון תקין ובריא יאכל ולא ילך לפח.

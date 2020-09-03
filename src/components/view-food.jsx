@@ -148,9 +148,7 @@ class ViewFood extends Component {
 
     return (
       <div className={styles.viewFood}>
-        <header className={styles.pageHeader}>
-          <h1 className={styles.headerText}>פרטי מזון</h1>
-        </header>
+        <h1 className={styles.headerText}>פרטי מזון</h1>
         {show}
         <Button to="/user/me" text="חזרה לפרופיל שלי" color="green" style={{width: this.state.buttonsWidth}}/>
       </div>

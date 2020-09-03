@@ -3,6 +3,7 @@ import MediaQuery from "react-responsive";
 
 import styles from "./scss/find-food-table.module.scss";
 import FoodListing from "./food-listing";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const FoodTable = (props) => {
   
@@ -28,7 +29,7 @@ const FoodTable = (props) => {
           </tr>
         </thead>
         <tbody>
-          <tr><td colSpan="2">הוספה למועדפים</td></tr>
+          <tr><td colSpan="2"><FontAwesomeIcon icon="star"/>&nbsp;הוספה למועדפים</td></tr>
           {props.array.map((listing, idx, arr) => {
             return (
               <FoodListing 
