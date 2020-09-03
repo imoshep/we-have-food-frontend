@@ -45,7 +45,7 @@ class Homepage extends Component {
         <header
           className={styles.pageHeader}
           id="header"
-          style={this.headerStyle}
+          // style={this.headerStyle}
         >
           <h1 className={styles.headerText}>
             <span dir="ltr">We Have Food!</span>
@@ -56,7 +56,8 @@ class Homepage extends Component {
         <section className={styles.content}>
           <div className={`${styles.content__about} ${showContent ? "showAboutContent" : ""}`} onClick={this.toggleShowMore}>
             <p>
-            שלום! הגעתם ל<strong>יש לנו אוכל!</strong> שמחים לראות אתכם כאן.
+            שלום! הגעתם ל<strong>יש לנו אוכל!</strong> 
+            <br /> שמחים לראות אתכם כאן.
             <br/>
             {showContent 
               ? <FontAwesomeIcon icon="caret-up" size='lg'/>

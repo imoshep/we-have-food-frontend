@@ -1,6 +1,7 @@
 import React from "react";
 import { toast } from "react-toastify";
 import Joi from "joi-browser";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Form from "./common/forms/form";
 import Button from "./common/button";
@@ -90,7 +91,7 @@ class AddFood extends Form {
   };
 
   render() {
-    const { cities } = this.state;
+    const { cities, isLoading } = this.state;
     return (
       <div className={styles.addFood}>
         <div className={styles.form}>
@@ -121,7 +122,9 @@ class AddFood extends Form {
                 )
                 : this.renderInput("foodCity", "* באיזו עיר?")}
             <div className={styles.formButtons}>
-              {this.renderSubmitButton("שיתוף מזון", "submit button green")}
+              {isLoading
+                   ? this.renderSubmitButton(<FontAwesomeIcon icon="spinner" spin/>, "submit button green")
+                   : this.renderSubmitButton("שיתוף מזון", "submit button green")}
               <span onClick={this.handleClear} className="button red">
                 ניקוי
               </span>

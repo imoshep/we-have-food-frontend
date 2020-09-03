@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center", marginTop: "1rem" }}>
       <p>We Have Food! &copy; {new Date().getFullYear()}</p>
       <p style={{ fontSize: "0.8rem" }}>
         Favicon made by

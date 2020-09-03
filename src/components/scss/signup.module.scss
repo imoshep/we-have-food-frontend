@@ -1,3 +1,5 @@
+@import "../../services/scss/color-palette.scss";
+
 .signup {
   min-height: 97vh;
   display: flex;
@@ -11,6 +13,10 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: $beige-light;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 .button {

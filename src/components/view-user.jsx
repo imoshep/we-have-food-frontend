@@ -14,7 +14,7 @@ class ViewUser extends Component {
   state = {
     user: { 
       data: {},
-      food: [],
+      food: ["loading"],
       favorites: []
     },
     favsToDelete: [],
@@ -183,18 +183,17 @@ class ViewUser extends Component {
   render() {
     const { user, favsToDelete, showFavs } = this.state;
 
-    let show;
-    if (user.favorites[0]?._id) show = this.renderFavorites()
-    else if (user.favorites.length > 0) show = <LoadingMessage />
-    else show = <tr><td>אין לך אוכל ברשימת המועדפים.&nbsp; 
+    let showUserFavorites;
+    if (user.favorites[0]?._id) showUserFavorites = this.renderFavorites()
+    else if (user.favorites.length > 0) showUserFavorites = <LoadingMessage />
+    else showUserFavorites = <tr><td>אין לך אוכל ברשימת המועדפים.&nbsp; 
     <Link to="/food/search">חפש אוכל</Link> </td></tr>
 
     return (
       <div className={styles.viewUser}>
-        <header className={styles.pageHeader}>
+        <div className={styles.displayBlock}>
           <h1 className={styles.headerText}>פרטי משתמש</h1>
-        </header>
-
+        {(user.food[0] === "loading") && <LoadingMessage />}
         <table className={styles.table}>
           <thead>
             <tr>
@@ -209,7 +208,7 @@ class ViewUser extends Component {
               <td>{user.email}</td>
               <td>{user.phone}</td>
             </tr>
-            {user.food.length ? (
+            {(user.food[0] !== "loading" && user.food.length > 0) ? (
               this.renderFoodRows()
             ) : (
               <tr>
@@ -227,7 +226,7 @@ class ViewUser extends Component {
               <td colSpan='3'>
                 <table>
                   <tbody>
-                    { showFavs && show}
+                    { showFavs && showUserFavorites}
                   </tbody>
                 </table>
               </td>
@@ -237,6 +236,7 @@ class ViewUser extends Component {
         </td></tr>}
           </tbody>
         </table>
+        </div>
       </div>
     );
   }
